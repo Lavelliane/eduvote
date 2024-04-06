@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Party {
+  id        String     @id @default(cuid())
+  vision    String?
+  mission   String?
+  goals     String?
+  positions Position[]
+
+  @@map("Party")
+}
+
+model Position {
+  id              String      @id @default(cuid())
+  name            String
+  number_of_votes Int
+  candidates      Candidate[]
+  description     String?
+  party_id        String
+  party           Party       @relation(fields: [party_id], references: [id], onDelete: Cascade)
+
+  @@map("Position")
+}
+
+enum Year {
+  FRESHMAN
+  SOPHOMORE
+  JUNIOR
+  SENIOR
+}
+
+model Candidate {
+  id          String  @id @default(cuid())
+  name        String
+  year        Year
+  age         Int
+  position_id String
+  credentials String?
+  advocacy    String?
+  course      String
+  img_url     String?
+
+  position Position @relation(fields: [position_id], references: [id], onDelete: Cascade)
+
+  @@map("Candidate")
+}

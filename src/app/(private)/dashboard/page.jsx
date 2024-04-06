@@ -1,11 +1,29 @@
+import LeaderboardTable from "@/components/LeaderboardTable";
 import { Card } from "antd";
-import { Space, Table, Tag } from "antd";
+
+const dummyData = [
+  {
+    number: 1,
+    name: 'Labyu',
+    party: 'Happy',
+    votePercentage: 50,
+    totalVotes: 100,
+    position: 'Governor'
+  },
+  {
+    number: 2,
+    name: 'Labyu too',
+    party: 'I love Bohol',
+    votePercentage: 50,
+    totalVotes: 100,
+    position: 'Governor'
+  },
+]
 
 
 function DashboardPage() {
   return (
     <>
-  
       <Card className="h-40 w-[54%] flex items-center rounded-md border border-[#E6EDFF] font-sans">
         <div className="flex items-center">
           <div className="flex items-center flex-col mr-8 p-6">
@@ -27,22 +45,10 @@ function DashboardPage() {
         </div>
       </Card>
 
-      <Card className="mt-6 rounded-md border border-[#E6EDFF] flex fontFamily-sans">
-        <div>
-          <div className="flex items-center ">
-            <h1 className="font-bold text-lg">Ranking</h1>
-            <p className="text-[#7C8DB5] text-[12px] mr-auto">12:30 PM, May 7</p>
-          </div>
-          <div className="flex justify-center text-center m-auto">
-            <h4>Governor</h4>
-          </div>
-          <Table>
-          
-       
-    
-          </Table>
-        </div>
-      </Card>
+      <LeaderboardTable data={dummyData} showTitle={true} position="Governor"/>
+      <LeaderboardTable data={dummyData} showTitle={false} position="Vice Governor"/>
+      <LeaderboardTable data={dummyData} showTitle={false} position="Secretary"/>
+      <LeaderboardTable data={dummyData} showTitle={false} position="P.I.O"/>
     </>
   );
 }
