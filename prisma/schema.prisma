@@ -15,10 +15,12 @@ datasource db {
 
 model Party {
   id        String     @id @default(cuid())
+  name      String
   vision    String?
   mission   String?
   goals     String?
   positions Position[]
+  candidates Candidate[]
 
   @@map("Party")
 }
@@ -30,7 +32,7 @@ model Position {
   candidates      Candidate[]
   description     String?
   party_id        String
-  party           Party       @relation(fields: [party_id], references: [id], onDelete: Cascade)
+  party           Party       @relation(fields: [party_id], references: [id])
 
   @@map("Position")
 }
@@ -48,12 +50,14 @@ model Candidate {
   year        Year
   age         Int
   position_id String
+  party_id    String
   credentials String?
   advocacy    String?
   course      String
   img_url     String?
 
-  position Position @relation(fields: [position_id], references: [id], onDelete: Cascade)
+  party    Party @relation(fields: [party_id], references: [id])
+  position Position @relation(fields: [position_id], references: [id])
 
   @@map("Candidate")
 }
