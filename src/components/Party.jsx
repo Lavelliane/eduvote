@@ -2,54 +2,45 @@
 import { Button, Form, Input } from 'antd'
 import AddButton from './AddButton'
 import PartylistCard from './PartylistCard'
-import { Modal } from 'antd'
-import { useState } from 'react'
+import { Modal, Spin } from 'antd'
+import { useState, useEffect } from 'react'
+import AddPartyForm from './Forms/AddPartyForm'
+import { getParties } from '@/lib/queries/party/getParty'
+import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 function Party({ parties }) {
   const [isAddPartyModalOpen, setIsAddPartyModalOpen] = useState(false)
+  const [partyData, setPartyData] = useState({})
+  const { data: fetchedParties, isLoading, refetch } = useQuery({ queryKey: ['parties'], queryFn: getParties })
 
-  function handleCancel() {
-    setIsAddPartyModalOpen(false)
-  }
-
-  function handleOk(values) {
-    console.log('Form values:', values)
-    // You can add form submission logic here
-    setIsAddPartyModalOpen(false)
-  }
+  useEffect(() => {
+    refetch()
+  }, [])
 
   return (
     <>
-      <div className='flex gap-3 items-center mt-3'>
-        <h1 className='font-bold'>Active Parties</h1>
-        <AddButton buttonName='Add Party' onClick={() => setIsAddPartyModalOpen(true)} />
-      </div>
-      {parties.length > 0 && (
-        <>
-          {parties.map((party, i) => (
-            <PartylistCard title={party.name} key={i} />
-          ))}
-        </>
-      )}
-      <Modal title='Add Party' open={isAddPartyModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <Form>
-          <Form.Item
-            label='Party Name'
-            name='partyName'
-            rules={[{ required: true, message: 'Please input party name!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label='Vision' name='vision' rules={[{ required: true, message: 'Please input vision!' }]}>
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item label='Mission' name='mission' rules={[{ required: true, message: 'Please input mission!' }]}>
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item label='Goals' name='goals' rules={[{ required: true, message: 'Please input goals!' }]}>
-            <Input.TextArea />
-          </Form.Item>
-        </Form>
+      <Spin spinning={isLoading}>
+        <div className='flex gap-3 items-center mt-3'>
+          <h1 className='font-bold'>Active Parties</h1>
+          <AddButton buttonName='Add Party' onClick={() => setIsAddPartyModalOpen(true)} />
+        </div>
+        {fetchedParties && fetchedParties.length > 0 && (
+          <>
+            {fetchedParties.map((party, i) => (
+              <PartylistCard
+                title={party.name}
+                key={i}
+                data={party}
+                onSetChoice={(value) => setPartyData(value)}
+                handleFormOpen={() => setIsAddPartyModalOpen(true)}
+              />
+            ))}
+          </>
+        )}
+      </Spin>
+      <Modal title='Add Party' open={isAddPartyModalOpen} footer={null} onCancel={() => setIsAddPartyModalOpen(false)}>
+        { Object.keys(partyData).length > 0 && <AddPartyForm handleModalClose={() => setIsAddPartyModalOpen(false)} data={partyData} trigger='edit' />}
+        { Object.keys(partyData).length === 0 && <AddPartyForm handleModalClose={() => setIsAddPartyModalOpen(false)} />}
       </Modal>
     </>
   )

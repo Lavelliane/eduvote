@@ -19,22 +19,9 @@ model Party {
   vision    String?
   mission   String?
   goals     String?
-  positions Position[]
   candidates Candidate[]
 
   @@map("Party")
-}
-
-model Position {
-  id              String      @id @default(cuid())
-  name            String
-  number_of_votes Int
-  candidates      Candidate[]
-  description     String?
-  party_id        String
-  party           Party       @relation(fields: [party_id], references: [id])
-
-  @@map("Position")
 }
 
 enum Year {
@@ -49,6 +36,7 @@ model Candidate {
   name        String
   year        Year
   age         Int
+  position    String
   position_id String
   party_id    String
   credentials String?
@@ -57,7 +45,6 @@ model Candidate {
   img_url     String?
 
   party    Party @relation(fields: [party_id], references: [id])
-  position Position @relation(fields: [position_id], references: [id])
 
   @@map("Candidate")
 }

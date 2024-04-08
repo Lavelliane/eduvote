@@ -1,63 +1,71 @@
-import { PrismaClient } from '@prisma/client';
-import { NextRequest, NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client'
+import { NextRequest, NextResponse } from 'next/server'
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 export async function POST(req, res) {
-    try {
-        const body = await req.json();
-        console.log(body);
+  try {
+    const body = await req.json()
+    console.log(body)
+    const createdParty = await prisma.party.create({
+      data: {
+        name: body.name,
+        vision: body.vision,
+        mission: body.mission,
+        goals: body.goals
+      }
+    })
 
-        // Prepare positions data with associated candidates
-        const positionsData = body.positions.map((position) => {
-            const candidatesData = position.candidates.map((candidate) => ({
-                name: candidate.name,
-                year: candidate.year,
-                age: candidate.age,
-                credentials: candidate.credentials,
-                advocacy: candidate.advocacy,
-                course: candidate.course,
-                img_url: candidate.img_url
-            }));
+    return NextResponse.json({ message: 'success', party: createdParty }, { status: 201 })
+  } catch (error) {
+    console.error('Error creating party:', error)
+    // Respond with error message
+    return NextResponse.json({ message: 'error' }, { status: 500 })
+  } finally {
+    // Disconnect Prisma client
+    await prisma.$disconnect()
+  }
+}
 
-            return {
-                name: position.name,
-                number_of_votes: position.number_of_votes,
-                description: position.description,
-                candidates: {
-                    create: candidatesData
-                }
-            };
-        });
+export async function GET(req, res) {
+  try {
+    const parties = await prisma.party.findMany()
+    return NextResponse.json({ message: 'success', parties: parties }, { status: 200 })
+  } catch (error) {
+    console.error('Error retrieving party:', error)
+    // Respond with error message
+    return NextResponse.json({ message: 'error' }, { status: 500 })
+  }
+}
 
-        // Create the party with nested positions and candidates
-        const createdParty = await prisma.party.create({
-            data: {
-                vision: body.vision,
-                name: body.name,
-                mission: body.mission,
-                goals: body.goals,
-                positions: {
-                    create: positionsData
-                }
-            },
-            include: {
-                positions: {
-                    include: {
-                        candidates: true
-                    }
-                }
-            }
-        });
-
-        // Respond with success message and created party data
-        return NextResponse.json({ message: 'success', party: createdParty });
-    } catch (error) {
-        console.error('Error creating party:', error);
-        // Respond with error message
-        return NextResponse.json({ message: 'error' });
-    } finally {
-        // Disconnect Prisma client
-        await prisma.$disconnect();
-    }
+export async function PATCH(req, { params }) {
+  try {
+    const body = await req.json()
+    const id = body.id
+    console.log(body, id)
+    const updateParty = await prisma.party.update({
+      where: { id },
+      data: body
+    })
+    return NextResponse.json({ message: 'success', data: updateParty }, { status: 200 })
+  } catch (error) {
+    console.error('Error updating party:', error)
+    // Respond with error message
+    return NextResponse.json({ message: 'error' }, { status: 500 })
+  }
+}
+export async function DELETE(req, { params }) {
+  try {
+    const body = await req.json()
+    const id = body.id
+    console.log(body)
+    const deletedParty = await prisma.party.delete({
+      where: { id }
+    })
+    return NextResponse.json({ message: 'success', data: deletedParty }, { status: 200 })
+  } catch (error) {
+    console.error('Error deleting party:', error)
+    // Respond with error message
+    return NextResponse.json({ message: 'error' }, { status: 500 })
+  }
 }

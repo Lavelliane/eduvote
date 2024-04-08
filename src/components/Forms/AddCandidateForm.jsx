@@ -1,28 +1,5 @@
-import DropdownMenu from './DropdownMenu'
-import { Form, Input, Row, Col } from 'antd'
-
-const itemYearLevel = [
-  {
-    label: 'First Year',
-    key: '1',
-   
-  },
-  {
-    label: 'Second Year',
-    key: '2',
-   
-  },
-  {
-    label: 'Third Year',
-    key: '3',
-    
-  },
-  {
-    label: 'Fourth Year',
-    key: '4',
-   
-  },
-]
+import { positions, yearLevels } from '@/constants'
+import { Form, Input, Select } from 'antd'
 
 function AddCandidateForm() {
   return (
@@ -43,7 +20,7 @@ function AddCandidateForm() {
         label='Position'
         rules={[{ required: true, message: 'Please select year level' }]}
       >
-        <DropdownMenu />
+        <Select options={positions} />
       </Form.Item>
 
       <Form.Item
@@ -51,7 +28,7 @@ function AddCandidateForm() {
         label='Year Level'
         rules={[{ required: true, message: 'Please select year level' }]}
       >
-        <DropdownMenu />
+        <Select options={yearLevels} />
       </Form.Item>
 
       <Form.Item
