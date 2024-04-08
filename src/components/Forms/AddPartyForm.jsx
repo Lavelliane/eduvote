@@ -1,14 +1,16 @@
 'use client'
 
 import { Form, Input, Button } from 'antd'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createParty } from '@/lib/queries/party/createParty'
 import { useEffect } from 'react'
 import { updateParty } from '@/lib/queries/mutations/party/updateParty'
 
+
 const { useForm } = Form
 
 function AddPartyForm({ handleModalClose, data, trigger }) {
+  const queryClient = useQueryClient();
   const createMutation = useMutation({
     mutationFn: createParty,
     onSuccess: () => {
@@ -37,13 +39,15 @@ function AddPartyForm({ handleModalClose, data, trigger }) {
   }
 
   useEffect(() => {
-    if (data) {
+    if (data && trigger === 'edit') {
       partyForm.setFieldsValue({
         name: data.name || '', // Set initial value for 'name' field
         vision: data.vision || '', // Set initial value for 'vision' field
         mission: data.mission || '', // Set initial value for 'mission' field
         goals: data.goals || '' // Set initial value for 'goals' field
       })
+    }else{
+      partyForm.resetFields()
     }
   }, [data, partyForm])
 

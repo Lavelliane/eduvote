@@ -4,10 +4,19 @@ import AddButton from './AddButton'
 import { Modal } from 'antd'
 import { useState } from 'react'
 import AddCandidateForm from './Forms/AddCandidateForm'
+import CandidateListCard from '@/components/CandidateListCard'
 
-function Candidate({ name, candidates }) {
+function Candidate({ name, candidates, partyId }) {
   const [isCandidateModalOpen, setIsCandidateModalOpen] = useState(false)
+    const [selectedCandidate, setSelectedCandidate] = useState({})
+    const [ trigger, setTrigger ] = useState('create')
 
+    const handleFormClose = () => {
+      setIsCandidateModalOpen(false)
+    }
+    const handleFormOpen = () => {
+        setIsCandidateModalOpen(true)
+    }
   function handleOk() {
     alert('Candidate Created')
   }
@@ -16,12 +25,15 @@ function Candidate({ name, candidates }) {
     <>
       <div className='flex  gap-3 items-center mt-3'>
         <h1 className='font-bold '>{name}</h1>
-        <AddButton buttonName='Add Candidate' onClick={() => setIsCandidateModalOpen(true)} />
+        <AddButton buttonName='Add Candidate' onClick={() => {
+            setIsCandidateModalOpen(true)
+            setTrigger('create')
+        }} />
       </div>
       {candidates.length > 0 && (
         <>
           {candidates.map((candidate, i) => (
-            <PartylistCard key={i} title={candidate.name} position={candidate.position} />
+            <CandidateListCard setTrigger={setTrigger} data={candidate} key={i} title={candidate.name} position={candidate.position} handleFormOpen={handleFormOpen} onSetChoice={(value) => setSelectedCandidate(value)}/>
           ))}
         </>
       )}
@@ -32,7 +44,7 @@ function Candidate({ name, candidates }) {
         onOk={handleOk}
         onCancel={() => setIsCandidateModalOpen(false)}
       >
-        <AddCandidateForm />
+        <AddCandidateForm handleFormClose={handleFormClose} partyId={partyId} candidateData={selectedCandidate} trigger={trigger}/>
       </Modal>
     </>
   )

@@ -6,6 +6,7 @@ import React from "react";
 import { Segmented, Tabs } from "antd";
 import Party from "@/components/Party";
 import Candidate from "@/components/Candidate";
+import CandidateLayout from "@/components/Layouts/CandidateLayout";
 
 const dummyCandidates = [
   { name: 'Jhury', position: 'Governor'},
@@ -34,30 +35,31 @@ const onChange = (key) => {
   console.log(key);
 };
 
-const items = [
-  {
-    key: "1",
-    label: "Partylist",
-    children: (
-      <>
-       <Party parties={parties} />
-      </>
-    ),
-  },
-  {
-    key: "2",
-    label: "Candidates",
-    children: (
-      <>
-        <Candidate name="Atup" candidates={dummyCandidates}/>
-        <Candidate name="Dibdib" candidates={dummyCandidates2}/>
-      </>
-    ),
-  },
-];
+
 
 const App = () => {
   const [alignValue, setAlignValue] = React.useState("center");
+
+  const items = [
+    {
+      key: "1",
+      label: "Partylist",
+      children: (
+        <>
+         <Party />
+        </>
+      ),
+    },
+    {
+      key: "2",
+      label: "Candidates",
+      children: (
+        <>
+          <CandidateLayout />
+        </>
+      ),
+    },
+  ];
 
   return (
     <>

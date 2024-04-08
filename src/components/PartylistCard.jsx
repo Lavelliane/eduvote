@@ -4,17 +4,17 @@ import { Button, Card } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import { DeleteOutlined } from '@ant-design/icons'
 import { useEffect } from 'react'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { deleteParty } from '@/lib/queries/mutations/party/deleteParty'
 
-function PartylistCard({ title, position, data, onSetChoice, handleFormOpen }) {
-
+function PartylistCard({ title, position, data, onSetChoice, handleFormOpen, setTrigger }) {
+  const queryClient = useQueryClient();
   const { mutate: deleteMutation } = useMutation({
     mutationFn: deleteParty,
-    // onSuccess: () => {
-    //   // Invalidate and refetch
-    //   queryClient.invalidateQueries({ queryKey: ['parties'] })
-    // }
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['parties'] })
+    }
   })
 
   return (
@@ -28,6 +28,7 @@ function PartylistCard({ title, position, data, onSetChoice, handleFormOpen }) {
           <div className='flex items-center ml-auto gap-6 cursor-pointer'>
             <EditOutlined onClick={() => {
               onSetChoice(data)
+              setTrigger('edit')
               handleFormOpen()
             }} />
             <DeleteOutlined  onClick={() => {
