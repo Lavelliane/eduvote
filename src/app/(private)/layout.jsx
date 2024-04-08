@@ -29,6 +29,7 @@ const items1 = [
     getItem('DibDib', '4'),
   ]),
   getItem('Vote', '9', <img className="w-4 h-4" src="voters.svg" alt="chart" />),
+  getItem('Admin', '10', <img className="w-4 h-4" src="admin.svg" alt="admin" />),
 ];
 
 const items2 = [
@@ -44,17 +45,17 @@ const PrivateLayout = ({ children }) => {
   } = theme.useToken();
 
   return (
-    <Layout className='h-screen bg-[#FAFBFC]'>
+    <Layout className='h-screen bg-[#FAFBFC] flex-wrap'>
       
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} style={{ backgroundColor: 'white' }} className='text-[#7C8DB5] w-[200px]'>
-        <img className='pt-14 pl-4 w-32 h-34 self-center' src="edulogo.svg" alt="logo-eduvote" />
+        <img className='pt-14 pl-4 w-32 h-34 self-center z-3' src="edulogo.svg" alt="logo-eduvote" />
         <div className="demo-logo-vertical" />
         
         {/* First Menu */}
         <Menu defaultSelectedKeys={['1']} mode="inline" items={items1} style={{ backgroundColor: 'white' }} className='font-sans pt-9' />
 
         {/* Second Menu */}
-        <Menu defaultSelectedKeys={['']} mode="inline" items={items2} style={{ backgroundColor: 'white',  }} className='pt-80 font-sans' />
+        <Menu defaultSelectedKeys={['0']} mode="inline" items={items2} style={{ backgroundColor: 'white',  }} className='pt-80 font-sans' />
         <style>
           {`
             .ant-menu-item-selected {
@@ -78,6 +79,8 @@ const PrivateLayout = ({ children }) => {
             height: 90,
             padding: 0,
             background: colorBgContainer,
+           
+            
           }}
           
         />
