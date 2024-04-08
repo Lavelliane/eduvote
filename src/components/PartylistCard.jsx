@@ -5,7 +5,7 @@ import { DeleteOutlined } from '@ant-design/icons'
 function PartylistCard({ title, position }) {
   return (
     <>
-      <Card className='mt-10 w-[70%]'>
+      <Card className='mt-6 w-[70%]'>
         <div className='flex items-center'>
           <div className='flex items-center gap-3'>
             <h1>{title}</h1>
