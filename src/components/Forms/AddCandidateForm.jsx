@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import { omit } from 'lodash'
 
 function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const { mutate: createCandidateMutation } = useMutation({
     mutationFn: createCandidate,
     onSuccess: () => {
@@ -27,17 +27,17 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
   const [candidateForm] = useForm()
 
   useEffect(() => {
-    if(candidateData && trigger==='edit'){
+    if (candidateData && trigger === 'edit') {
       //omit img_url for now
       candidateForm.setFieldsValue(candidateData)
-    }else{
+    } else {
       candidateForm.resetFields()
     }
   }, [candidateData, candidateForm])
   const handleSubmit = (values) => {
-    if(trigger === 'create'){
+    if (trigger === 'create') {
       createCandidateMutation({ ...values, party_id: partyId })
-    }else{
+    } else {
       updateCandidateMutation({ ...values, id: candidateData.id })
     }
     handleFormClose()
@@ -58,35 +58,19 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
         <Input />
       </Form.Item>
 
-      <Form.Item
-        name='position'
-        label='Position'
-        rules={[{ required: true, message: 'Please select year level' }]}
-      >
+      <Form.Item name='position' label='Position' rules={[{ required: true, message: 'Please select year level' }]}>
         <Select options={positions} />
       </Form.Item>
 
-      <Form.Item
-        name='year'
-        label='Year Level'
-        rules={[{ required: true, message: 'Please select year level' }]}
-      >
+      <Form.Item name='year' label='Year Level' rules={[{ required: true, message: 'Please select year level' }]}>
         <Select options={yearLevels} />
       </Form.Item>
 
-      <Form.Item
-          name='course'
-          label='Course'
-          rules={[{ required: true, message: 'Please enter the advocacy' }]}
-      >
+      <Form.Item name='course' label='Course' rules={[{ required: true, message: 'Please enter the advocacy' }]}>
         <Input />
       </Form.Item>
 
-      <Form.Item
-          name='age'
-          label='Age'
-          rules={[{ required: true, message: 'Please input age' }]}
-      >
+      <Form.Item name='age' label='Age' rules={[{ required: true, message: 'Please input age' }]}>
         <InputNumber />
       </Form.Item>
 
@@ -98,15 +82,11 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
         <Input.TextArea />
       </Form.Item>
 
-      <Form.Item
-        name='advocacy'
-        label='Advocacy'
-        rules={[{ required: true, message: 'Please enter the advocacy' }]}
-      >
+      <Form.Item name='advocacy' label='Advocacy' rules={[{ required: true, message: 'Please enter the advocacy' }]}>
         <Input.TextArea />
       </Form.Item>
-      <Button htmlType="submit" type="primary">
-        { trigger === 'create' ? 'Add Candidate' : 'Update Candidate'}
+      <Button htmlType='submit' type='primary'>
+        {trigger === 'create' ? 'Add Candidate' : 'Update Candidate'}
       </Button>
     </Form>
   )
