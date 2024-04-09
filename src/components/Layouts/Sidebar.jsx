@@ -30,10 +30,10 @@ export default function Sidebar({ children }) {
 
   function generateCandidatesMenuItems(parties) {
     if (!parties || isLoading) {
-      return null; // Return null or loading indicator if parties are still loading
+      return null // Return null or loading indicator if parties are still loading
     }
 
-    return parties.map((party) => getItem(party.name, party.id.toString())); // Generate menu items from fetched parties
+    return parties.map((party) => getItem(party.name, party.id.toString())) // Generate menu items from fetched parties
   }
 
   const items1 = [
