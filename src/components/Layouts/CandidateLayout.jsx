@@ -13,7 +13,7 @@ function CandidateLayout() {
     })
 
 
-
+//test pre commit
     useEffect(() => {
         console.log(candidates)
     },[candidates])
