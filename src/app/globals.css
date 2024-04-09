@@ -11,3 +11,21 @@
 body {
   font-family: sans;
 }
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #00ac4f !important;
+  font-weight: 500;
+}
+
+.ant-tabs-ink-bar {
+  height: 5px;
+  background: #00ac4f !important;
+}
+
+.ant-menu .ant-menu-item-selected {
+  color: #00ac4f !important;
+}
+
+.ant-menu-submenu-title {
+  color: #000000 !important;
+}

@@ -11,7 +11,7 @@ import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider
 function Party() {
   const [isAddPartyModalOpen, setIsAddPartyModalOpen] = useState(false)
   const [partyData, setPartyData] = useState({})
-  const { data: fetchedParties, isLoading, refetch } = useQuery({ queryKey: ['parties'], queryFn: getParties })
+  const { data: fetchedParties, isLoading } = useQuery({ queryKey: ['parties'], queryFn: getParties })
   const [trigger, setTrigger] = useState('create')
 
   return (
@@ -22,6 +22,7 @@ function Party() {
           <AddButton
             buttonName='Add Party'
             onClick={() => {
+              setPartyData({})
               setIsAddPartyModalOpen(true)
               setTrigger('create')
             }}
