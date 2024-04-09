@@ -1,10 +1,10 @@
 function RootLayout({ children }) {
- return (
-  <>
-   <html>
-    <body>{children}</body>
-   </html>
-  </>
- );
+  return (
+    <>
+      <html>
+        <body>{children}</body>
+      </html>
+    </>
+  )
 }
-export default RootLayout;
+export default RootLayout

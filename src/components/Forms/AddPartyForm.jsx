@@ -6,11 +6,10 @@ import { createParty } from '@/lib/queries/party/createParty'
 import { useEffect } from 'react'
 import { updateParty } from '@/lib/queries/mutations/party/updateParty'
 
-
 const { useForm } = Form
 
 function AddPartyForm({ handleModalClose, data, trigger }) {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const createMutation = useMutation({
     mutationFn: createParty,
     onSuccess: () => {
@@ -29,10 +28,10 @@ function AddPartyForm({ handleModalClose, data, trigger }) {
 
   const onFinish = (values) => {
     // console.log(data.id)
-    if(trigger === 'edit'){
-      updateMutation({ ...values, id: data.id})
+    if (trigger === 'edit') {
+      updateMutation({ ...values, id: data.id })
       handleModalClose()
-    }else{
+    } else {
       createMutation.mutate(values)
       handleModalClose()
     }
@@ -46,7 +45,7 @@ function AddPartyForm({ handleModalClose, data, trigger }) {
         mission: data.mission || '', // Set initial value for 'mission' field
         goals: data.goals || '' // Set initial value for 'goals' field
       })
-    }else{
+    } else {
       partyForm.resetFields()
     }
   }, [data, partyForm])

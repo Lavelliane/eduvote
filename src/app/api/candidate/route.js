@@ -4,24 +4,23 @@ import { NextRequest, NextResponse } from 'next/server'
 const prisma = new PrismaClient()
 
 export async function POST(req, res) {
-    try {
-      const body = await req.json()
-      console.log(body)
-      const newCandidate = await prisma.candidate.create({
-        data: body
-      })
+  try {
+    const body = await req.json()
+    console.log(body)
+    const newCandidate = await prisma.candidate.create({
+      data: body
+    })
 
-  
-      return NextResponse.json({ message: 'success', party: newCandidate }, { status: 201 })
-    } catch (error) {
-      console.error('Error creating Candidate:', error)
-      // Respond with error message
-      return NextResponse.json({ message: 'error' }, { status: 500 })
-    } finally {
-      // Disconnect Prisma client
-      await prisma.$disconnect()
-    }
+    return NextResponse.json({ message: 'success', party: newCandidate }, { status: 201 })
+  } catch (error) {
+    console.error('Error creating Candidate:', error)
+    // Respond with error message
+    return NextResponse.json({ message: 'error' }, { status: 500 })
+  } finally {
+    // Disconnect Prisma client
+    await prisma.$disconnect()
   }
+}
 export async function GET(req, res) {
   try {
     const candidates = await prisma.party.findMany({

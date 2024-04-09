@@ -12,23 +12,26 @@ function Party() {
   const [isAddPartyModalOpen, setIsAddPartyModalOpen] = useState(false)
   const [partyData, setPartyData] = useState({})
   const { data: fetchedParties, isLoading, refetch } = useQuery({ queryKey: ['parties'], queryFn: getParties })
-    const [trigger, setTrigger] = useState('create')
+  const [trigger, setTrigger] = useState('create')
 
   return (
     <>
       <Spin spinning={isLoading}>
         <div className='flex gap-3 items-center mt-3'>
           <h1 className='font-bold'>Active Parties</h1>
-          <AddButton buttonName='Add Party' onClick={() => {
+          <AddButton
+            buttonName='Add Party'
+            onClick={() => {
               setIsAddPartyModalOpen(true)
               setTrigger('create')
-          }} />
+            }}
+          />
         </div>
         {fetchedParties && fetchedParties.length > 0 && (
           <>
             {fetchedParties.map((party, i) => (
               <PartylistCard
-                  setTrigger={setTrigger}
+                setTrigger={setTrigger}
                 title={party.name}
                 key={i}
                 data={party}
