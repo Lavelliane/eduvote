@@ -15,6 +15,7 @@ const PrivateLayout = ({ children }) => {
 
   return (
     <QueryClientProvider client={client}>
+      {/* eslint-disable-next-line react/no-children-prop */}
       <Sidebar children={children} />
     </QueryClientProvider>
   )
