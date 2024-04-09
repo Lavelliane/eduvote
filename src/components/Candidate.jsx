@@ -28,6 +28,7 @@ function Candidate({ name, candidates, partyId }) {
         <AddButton
           buttonName='Add Candidate'
           onClick={() => {
+            setSelectedCandidate({})
             setIsCandidateModalOpen(true)
             setTrigger('create')
           }}
