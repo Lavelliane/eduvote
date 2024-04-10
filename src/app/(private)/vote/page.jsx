@@ -42,12 +42,12 @@ export default function VotePage() {
     try {
       setIsSubmitting(true)
       const data = await submitVoteMutation(votes)
-      if(data){
+      if (data) {
         setIsSubmitting(false)
       }
       setIsSubmitting(false)
       router.push('/voting-success')
-    }catch (e) {
+    } catch (e) {
       setIsSubmitting(false)
       console.error(e)
     }
@@ -56,11 +56,11 @@ export default function VotePage() {
   const handleVoteChange = (value, index) => {
     console.log(value, index)
     setVotes((prev) => {
-      let updatedVotes = [...prev];
+      let updatedVotes = [...prev]
       updatedVotes[index] = value
-      return updatedVotes;
-    });
-  };
+      return updatedVotes
+    })
+  }
 
   useEffect(() => {
     if (!isLoading && candidatesData && candidatesData.length > 0) {
@@ -99,7 +99,7 @@ export default function VotePage() {
         <p className='text-[#7C8DB5]'>Make your choice count</p>
       </div>
       <Spin spinning={Object.keys(positions).length <= 0 || isSubmitting}>
-        <div className='w-full h-screen bg-white mt-5 rounded-2xl px-8 py-8'>
+        <div className='w-full bg-white mt-5 rounded-2xl px-8 py-8'>
           {Object.keys(positions).map((position, index) => {
             if (positions[position].length > 0) {
               const tableData = positions[position].map((data, i) => {
@@ -112,12 +112,26 @@ export default function VotePage() {
                   partylist: data.party
                 }
               })
-              return <VotingTable position={position} data={tableData} handleVoteChange={handleVoteChange} key={index} index={index} />
+              return (
+                <VotingTable
+                  position={position}
+                  data={tableData}
+                  handleVoteChange={handleVoteChange}
+                  key={index}
+                  index={index}
+                />
+              )
             }
           })}
-          <Button className='mt-[30px] w-full' type='primary' onClick={handleSubmit}>
-            Submit Vote
-          </Button>
+          <div className='flex justify-center items-center'>
+            <Button
+              className='mt-[30px] w-[50%] h-10 font-sans font-medium bg-[#3DF07F]'
+              type='primary'
+              onClick={handleSubmit}
+            >
+              Submit Vote
+            </Button>
+          </div>
         </div>
       </Spin>
     </>

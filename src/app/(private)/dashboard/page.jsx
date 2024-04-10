@@ -23,18 +23,18 @@ const dummyData = [
 function DashboardPage() {
   return (
     <>
-      <Card className='h-40 w-[54%] flex items-center rounded-md border border-[#E6EDFF] font-sans'>
-        <div className='flex items-center'>
+      <Card className='h-40 w-[54%] flex items-center rounded-2xl border border-[#E6EDFF] '>
+        <div className='flex items-center font-sans'>
           <div className='flex items-center flex-col mr-8 p-6'>
-            <h1 className='mr-2 font-semibold text-3xl'>300</h1>
+            <h1 className='mr-2 font-semibold text-3xl '>300</h1>
             <p className='text-sm whitespace-nowrap'>Total votes</p>
           </div>
           <div className='ml-8 mb-10'>
             <img className='w-24 h-24' src='icon.svg' alt='users' />
           </div>
-          <hr className='h-30 w-28 transform rotate-90 bg-[#E6EDFF]' />
+          <hr className='h-30 w-28 transform rotate-90 ' />
           <div className='flex items-center flex-col ml-8'>
-            <h1 className='font-semibold text-3xl mr-auto'>0</h1>
+            <h1 className='font-semibold text-3xl mr-auto '>0</h1>
             <p className='text-sm whitespace-nowrap'>Registered Voters</p>
           </div>
           <div className='ml-10 mb-10'>

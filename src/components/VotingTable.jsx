@@ -50,6 +50,17 @@ export default function VotingTable({ position, data, handleVoteChange, index })
   return (
     <>
       <p className='flex items-center justify-center text-lg font-semibold mb-4 mt-5'>{position}</p>
+      <style>
+            {`
+              .custom-table .ant-table-cell {
+                background-color: transparent !important;
+              }
+
+              .ant-table-cell::before{
+             
+              }
+            `}
+          </style>
       <Table
         columns={columns}
         rowSelection={{
@@ -58,6 +69,7 @@ export default function VotingTable({ position, data, handleVoteChange, index })
         }}
         dataSource={data}
         pagination={false}
+        className="custom-table"
       />
     </>
   )
