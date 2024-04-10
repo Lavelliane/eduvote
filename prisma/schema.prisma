@@ -14,12 +14,13 @@ datasource db {
 }
 
 model Party {
-  id         String      @id @default(cuid())
-  name       String
-  vision     String?
-  mission    String?
-  goals      String?
-  candidates Candidate[]
+  id              String      @id @default(cuid())
+  name            String
+  vision          String?
+  mission         String?
+  goals           String?
+  number_of_votes Int?        @default(0)
+  candidates      Candidate[]
 
   @@map("Party")
 }
@@ -32,16 +33,17 @@ enum Year {
 }
 
 model Candidate {
-  id          String  @id @default(cuid())
-  name        String
-  year        Year
-  age         Int
-  position    String
-  party_id    String
-  credentials String?
-  advocacy    String?
-  course      String
-  img_url     String?
+  id              String  @id @default(cuid())
+  name            String
+  year            Year
+  age             Int
+  position        String
+  party_id        String
+  credentials     String?
+  advocacy        String?
+  course          String
+  img_url         String?
+  number_of_votes Int?    @default(0)
 
   party Party @relation(fields: [party_id], references: [id])
 
