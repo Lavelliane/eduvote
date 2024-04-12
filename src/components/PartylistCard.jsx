@@ -19,27 +19,30 @@ function PartylistCard({ title, position, data, onSetChoice, handleFormOpen, set
 
   return (
     <>
-      <Card className='mt-6 w-[70%]'>
+      <Card className='mt-6 w-[100%] '>
         <div className='flex items-center'>
           <div className='flex items-center gap-3'>
             <h1>{title}</h1>
             {position && <p className='text-gray-400 italic font-sans'>{position}</p>}
           </div>
           <div className='flex items-center ml-auto gap-6 cursor-pointer'>
-            <EditOutlined
+            <Button
               onClick={() => {
                 onSetChoice(data)
                 setTrigger('edit')
                 handleFormOpen()
               }}
-            />
-            <DeleteOutlined
+              style={{ color: '#00AC4F', border: '2px solid #1DEF6A', backgroundColor: 'rgba(61, 240, 127, 0.2)', borderRadius: '8px' }}
+            >Update</Button>
+            <Button
               onClick={() => {
                 onSetChoice(data)
                 console.log(data)
                 deleteMutation(data)
               }}
-            />
+              style={{ color: '#FF6262', border: '2px solid #FF6262', backgroundColor: 'rgba(240, 136, 61, 0.2)', borderRadius: '8px' }}
+             
+            >Delete</Button>
           </div>
         </div>
       </Card>

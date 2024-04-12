@@ -3,28 +3,33 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button, Divider, Flex, Radio } from 'antd'
 
 const AddButton = ({ data, buttonName, onClick }) => {
-  const [size, setSize] = useState('large') // default is 'middle'
+  const [size, setSize] = useState('large') 
   return (
     <>
-      <Flex gap='small' wrap='wrap'>
-        <Button
-          onClick={onClick}
-          type='primary'
-          shape='round'
-          style={{
-            backgroundColor: 'rgba(61, 240, 127, 0.2)',
-            padding: '10px',
-            color: '#00AC4F',
-            width: 'auto',
-            border: '2px solid #1DEF6A',
-            fontSize: '12px'
-          }}
-          icon={<PlusOutlined />}
-          size={size}
-        >
-          {buttonName}
-        </Button>
+    <div className='ml-auto'>
+    <Flex gap='small' wrap='wrap'  >
+      <Button
+  onClick={onClick}
+  type='primary'
+  style={{
+    backgroundColor: '#05C3EC', 
+    padding: '10px',
+    color: 'white', 
+    width: 'auto',
+    border: '2px solid #05C3EC',
+    fontSize: '12px',
+    font: 'bold'
+  }}
+  icon={<PlusOutlined />}
+  size={size}
+>
+  {buttonName}
+</Button>
+
+
       </Flex>
+    </div>
+      
     </>
   )
 }

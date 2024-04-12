@@ -18,7 +18,7 @@ function Party() {
     <>
       <Spin spinning={isLoading}>
         <div className='flex gap-3 items-center mt-3'>
-          <h1 className='font-bold'>Active Parties</h1>
+          <h1 className='font-semibold text-[14px] font-sans'>Active Parties</h1>
           <AddButton
             buttonName='Add Party'
             onClick={() => {
