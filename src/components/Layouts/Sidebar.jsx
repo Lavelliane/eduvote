@@ -1,8 +1,9 @@
 import { Layout, Menu, theme } from 'antd'
 import React, { useState } from 'react'
-import { DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
 import { getParties } from '@/lib/queries/party/getParty'
+import { useRouter } from 'next/navigation'
+import { CircleHelp } from 'lucide-react'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -16,13 +17,19 @@ function getItem(label, key, icon, children) {
 }
 
 const items2 = [
-  getItem('Help Centre', '2', <img className='w-4 h-4' src='help-center.svg' alt='chart' />),
-  getItem('Contact us', '3', <img className='w-4 h-4' src='contactus.svg' alt='chart' />),
-  getItem('Log out', '4', <img className='w-4 h-4' src='logout.svg' alt='chart' />)
+  getItem('Help Centre', '/help', <CircleHelp size={20} color="#7C8DB5" />),
+  getItem('Contact us', '/contact-us', <CircleHelp size={20} color="#7C8DB5" />),
+  getItem('Log out', '/sign-out', <CircleHelp size={20} color="#7C8DB5" />)
 ]
 export default function Sidebar({ children }) {
   const [collapsed, setCollapsed] = useState(false)
+  const router = useRouter()
   const { data: parties, isLoading } = useQuery({ queryKey: ['parties'], queryFn: getParties })
+
+  function handleNavigate(item){
+    console.log(item)
+    router.push(item.key)
+  }
 
   const {
     token: { colorBgContainer, borderRadiusLG }
@@ -33,19 +40,19 @@ export default function Sidebar({ children }) {
       return null // Return null or loading indicator if parties are still loading
     }
 
-    return parties.map((party) => getItem(party.name, party.id.toString())) // Generate menu items from fetched parties
+    return parties.map((party) => getItem(party.name, `/candidates/${party.id}`)) // Generate menu items from fetched parties
   }
 
   const items1 = [
-    getItem('Dashboard', '1', <img className='w-4 h-4' src='chart.svg' alt='chart' />),
+    getItem('Dashboard', '/dashboard', <CircleHelp size={20} color="#7C8DB5" />),
     getItem(
       'Candidates',
       'sub1',
-      <img className='w-4 h-4' src='candidates.svg' alt='chart' />,
+      <CircleHelp size={20} color="#7C8DB5" />,
       generateCandidatesMenuItems(parties)
     ),
-    getItem('Vote', '9', <img className='w-4 h-4' src='voters.svg' alt='chart' />),
-    getItem('Admin', '10', <img className='w-4 h-4' src='admin.svg' alt='admin' />)
+    getItem('Vote', '/vote', <CircleHelp size={20} color="#7C8DB5" />),
+    getItem('Admin', '/admin', <CircleHelp size={20} color="#7C8DB5" />)
   ]
   return (
     <Layout className='h-screen bg-[#FAFBFC] flex-wrap'>
@@ -66,6 +73,7 @@ export default function Sidebar({ children }) {
           items={items1}
           style={{ backgroundColor: 'white' }}
           className='font-sans pt-9'
+          onClick={handleNavigate}
         />
 
         {/* Second Menu */}

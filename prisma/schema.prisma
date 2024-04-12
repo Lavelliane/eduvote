@@ -45,7 +45,7 @@ model Candidate {
   img_url         String?
   number_of_votes Int?    @default(0)
 
-  party Party @relation(fields: [party_id], references: [id])
+  party Party @relation(fields: [party_id], references: [id], onDelete: Cascade)
 
   @@map("Candidate")
 }
