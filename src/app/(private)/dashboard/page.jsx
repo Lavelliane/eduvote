@@ -4,16 +4,16 @@ import { Card } from 'antd'
 const dummyData = [
   {
     number: 1,
-    name: 'Labyu',
-    party: 'Happy',
+    name: 'Lourence Dada',
+    party: 'Atup',
     votePercentage: 50,
     totalVotes: 100,
     position: 'Governor'
   },
   {
     number: 2,
-    name: 'Labyu too',
-    party: 'I love Bohol',
+    name: 'Mary Joy Gumanid',
+    party: 'DibDib',
     votePercentage: 50,
     totalVotes: 100,
     position: 'Governor'

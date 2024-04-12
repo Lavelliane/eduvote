@@ -125,7 +125,7 @@ export default function VotePage() {
           })}
           <div className='flex justify-center items-center'>
             <Button
-              className='mt-[30px] w-[50%] h-10 font-sans font-medium bg-[#3DF07F]'
+              className='mt-[30px] w-[50%] h-10 font-sans font-medium bg-[#3DF07F] hover:bg-[#3DF07F] hover:border-gray-300'
               type='primary'
               onClick={handleSubmit}
             >

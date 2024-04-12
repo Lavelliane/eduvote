@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import RadioType from '@/components/RadioType'
 
@@ -11,22 +12,10 @@ function Page() {
   return (
     <div className='flex flex-col items-center mb-20'>
       <p className='font-bold text-[24px] font-sans mb-10'>What year level are you?</p>
-      <div className='flex flex-row '>
-        <div className='mr-3'>
-          <RadioType yearLevel='First Year' value='first' />
-        </div>
-        <div>
-          <RadioType yearLevel='Second Year' value='second'  />
-        </div>
-      </div>
-      <div className='flex flex-row mt-7'>
-        <div className='mr-3'>
-          <RadioType yearLevel='Third Year' value='third' />
-        </div>
-        <div>
-          <RadioType yearLevel='Fourth Year' value='fourth'  />
-        </div>
-      </div>
+      
+
+            <RadioType />
+        
       <button className='bg-[#3DF07F] hover:bg-[#0AB74A] text-white font-semibold rounded-lg mt-6 py-3 w-[30%] font-sans text-[14px]'>
         Submit
       </button>

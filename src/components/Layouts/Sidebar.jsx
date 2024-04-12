@@ -100,6 +100,7 @@ export default function Sidebar({ children }) {
             background: colorBgContainer
           }}
         />
+
         <Content
           style={{
             margin: '0 16px'
@@ -119,7 +120,7 @@ export default function Sidebar({ children }) {
             textAlign: 'center'
           }}
         >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          ©{new Date().getFullYear()} LSU
         </Footer>
       </Layout>
     </Layout>
