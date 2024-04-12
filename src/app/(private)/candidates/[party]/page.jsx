@@ -1,6 +1,9 @@
 import { useMemo } from 'react'
 import { getPartyById} from '@/lib/queries/party/getPartyById'
 
+//KITAKITS SA APRIL 27
+
+// ================ I LOVE YOU ======================
 export default function PartyPage({ params }){
 
   const partyId = useMemo(() => {
