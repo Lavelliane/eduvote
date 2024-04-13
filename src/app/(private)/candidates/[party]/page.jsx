@@ -19,6 +19,11 @@ export default function PartyPage({ params }){
     queryFn: () => getPartyById(partyId)
   })
 
+  useEffect(() => {
+    console.log(party)
+  }, [isLoading])
+
+
 
   //Once party is present, render the component
   //Tip: Use conditional rendering (party ? (<Component for party>) : (<Loading component>)) OR (party && <Component for party>)
