@@ -19,7 +19,7 @@ function PartylistCard({ title, position, data, onSetChoice, handleFormOpen, set
 
   return (
     <>
-      <Card className='mt-6 w-[100%] '>
+      <Card className = 'mt-6 w-[100%] '>
         <div className='flex items-center'>
           <div className='flex items-center gap-3'>
             <h1>{title}</h1>

@@ -71,8 +71,8 @@ export default function Sidebar({ children }) {
           defaultSelectedKeys={['1']}
           mode='inline'
           items={items1}
-          style={{ backgroundColor: 'white' }}
-          className='font-sans pt-9'
+          style={{ backgroundColor: 'white', color: '#7C8DB5' }}
+          className='font-sans pt-9 text-[#7C8DB5]'
           onClick={handleNavigate}
         />
 

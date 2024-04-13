@@ -10,13 +10,12 @@ const AddButton = ({ data, buttonName, onClick }) => {
     <Flex gap='small' wrap='wrap'  >
       <Button
   onClick={onClick}
-  type='primary'
   style={{
-    backgroundColor: '#05C3EC', 
+    backgroundColor: '#0053F3', 
     padding: '10px',
     color: 'white', 
     width: 'auto',
-    border: '2px solid #05C3EC',
+    // border: '2px solid #05C3EC',
     fontSize: '12px',
     font: 'bold'
   }}
