@@ -1,9 +1,10 @@
 import { Layout, Menu, theme } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getParties } from '@/lib/queries/party/getParty'
 import { useRouter } from 'next/navigation'
-import { CircleHelp } from 'lucide-react'
+import { CircleHelp, Phone, LogOut, CircleCheck, Gauge, Users, ShieldCheck } from 'lucide-react'
+import { signOut, useSession } from 'next-auth/react'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -18,17 +19,24 @@ function getItem(label, key, icon, children) {
 
 const items2 = [
   getItem('Help Centre', '/help', <CircleHelp size={20} color="#7C8DB5" />),
-  getItem('Contact us', '/contact-us', <CircleHelp size={20} color="#7C8DB5" />),
-  getItem('Log out', '/sign-out', <CircleHelp size={20} color="#7C8DB5" />)
+  getItem('Contact us', '/contact-us', <Phone size={20} color="#7C8DB5" />),
+  getItem('Log out', '/sign-out', <LogOut size={20} color="#FF7074"/>)
 ]
 export default function Sidebar({ children }) {
   const [collapsed, setCollapsed] = useState(false)
   const router = useRouter()
   const { data: parties, isLoading } = useQuery({ queryKey: ['parties'], queryFn: getParties })
-
+  const { data: session, status } = useSession()
   function handleNavigate(item){
     console.log(item)
-    router.push(item.key)
+    if(item.key === '/sign-out'){
+      console.log(item.key)
+      signOut().then((res) => console.log(res))
+      router.push('/login')
+    }else{
+      console.log(item)
+      router.push(item.key)
+    }
   }
 
   const {
@@ -44,16 +52,35 @@ export default function Sidebar({ children }) {
   }
 
   const items1 = [
-    getItem('Dashboard', '/dashboard', <CircleHelp size={20} color="#7C8DB5" />),
+    getItem('Dashboard', '/dashboard', <Gauge size={20} color="#7C8DB5" />),
     getItem(
       'Candidates',
       'sub1',
-      <CircleHelp size={20} color="#7C8DB5" />,
+      <Users size={20} color="#7C8DB5" />,
       generateCandidatesMenuItems(parties)
     ),
-    getItem('Vote', '/vote', <CircleHelp size={20} color="#7C8DB5" />),
-    getItem('Admin', '/admin', <CircleHelp size={20} color="#7C8DB5" />)
+    getItem('Vote', '/vote', <CircleCheck size={20} color="#7C8DB5" />)
   ]
+
+  const itemsAdmin = [
+    getItem('Dashboard', '/dashboard', <Gauge size={20} color="#7C8DB5" />),
+    getItem(
+      'Candidates',
+      'sub1',
+      <Users size={20} color="#7C8DB5" />,
+      generateCandidatesMenuItems(parties)
+    ),
+    getItem('Vote', '/vote', <CircleCheck size={20} color="#7C8DB5" />),
+    getItem('Admin', '/admin', <ShieldCheck size={20} color="#7C8DB5" />)
+  ]
+
+  useEffect(() => {
+    if(status === "unauthenticated"){
+      router.push('/login')
+    }
+    console.log(session)
+  }, [session, status])
+
   return (
     <Layout className='h-screen bg-[#FAFBFC] flex-wrap'>
       <Sider
@@ -70,7 +97,7 @@ export default function Sidebar({ children }) {
         <Menu
           defaultSelectedKeys={['1']}
           mode='inline'
-          items={items1}
+          items={session && session?.user?.role === 'ADMIN' ? itemsAdmin: items1}
           style={{ backgroundColor: 'white', color: '#7C8DB5' }}
           className='font-sans pt-9 text-[#7C8DB5]'
           onClick={handleNavigate}
@@ -83,6 +110,7 @@ export default function Sidebar({ children }) {
           items={items2}
           style={{ backgroundColor: 'white' }}
           className='pt-80 font-sans'
+          onClick={handleNavigate}
         />
         <style>
           {`

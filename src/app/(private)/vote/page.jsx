@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import VotingTable from '@/components/VotingTable'
 import { submitVote } from '@/lib/mutations/votes/voteMutations'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 const positionsArray = [
   'Governor',
@@ -22,6 +23,7 @@ const positionsArray = [
 
 export default function VotePage() {
   const [positions, setPositions] = useState({})
+  const { data: session } = useSession()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [votes, setVotes] = useState([])
   const { data: candidatesData, isLoading } = useQuery({
@@ -35,8 +37,10 @@ export default function VotePage() {
   })
 
   useEffect(() => {
-    console.log(votes)
-  }, [votes])
+    if(session && session.user.hasVoted){
+      router.push('/voting-success')
+    }
+  }, [session])
 
   const handleSubmit = async () => {
     try {

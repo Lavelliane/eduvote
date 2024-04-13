@@ -54,7 +54,6 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
       autoComplete='off'
       form={candidateForm}
       onFinish={handleSubmit}
-      
     >
       <Form.Item name='name' label='Name' rules={[{ required: true, message: 'Please enter name' }]}>
         <Input />

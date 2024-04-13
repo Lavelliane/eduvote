@@ -49,3 +49,20 @@ model Candidate {
 
   @@map("Candidate")
 }
+
+enum Role {
+  ADMIN
+  VOTER
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  password     String
+  name         String
+  role         Role?    @default(VOTER)
+  year         Year?
+  course       String?
+  hasVoted     Boolean? @default(false)
+  vote_history String?
+}

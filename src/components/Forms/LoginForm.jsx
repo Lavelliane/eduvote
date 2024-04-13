@@ -1,11 +1,25 @@
+'use client'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import React from 'react';
+import { signIn } from "next-auth/react";
+import Cookies from 'js-cookie'
 
 const LoginForm = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  const onFinish = async (values) => {
+    try {
+      let res = await signIn("credentials", {
+        ...values,
+        callbackUrl: '/dashboard',
+        redirect: true,
+      });
+      console.log("success");
+    }catch (e) {
+      console.error(e)
+    }
   };
+
+  const [loginForm] = Form.useForm()
 
   return (
     <div className='mt-10'>
@@ -16,10 +30,11 @@ const LoginForm = () => {
           remember: true,
         }}
         onFinish={onFinish}
+        form={loginForm}
       >
         <h1 className='font-sans mb-3 font-normal'>Email</h1>
         <Form.Item
-          name='username'
+          name='email'
           rules={[
             {
               required: true,

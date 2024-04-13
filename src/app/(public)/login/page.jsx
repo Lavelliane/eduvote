@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import LoginForm from '@/components/Forms/LoginForm'
+import Link from 'next/link'
 
 function LoginPage() {
   return (
@@ -10,6 +11,7 @@ function LoginPage() {
         <p className='font-sans text-[#20115B] text-2xl font-semibold mb-4'>Log in</p>
         <p className='font-sans text-[#32403B] mt-4'>
           Please sign in to your HNU email to access the <br /> voting system.
+          Dont have an account? <Link href="/register" className="font-semibold cursor-pointer text-[#3DF07F]">Register Here</Link>
         </p>
         <LoginForm />
       </div>
