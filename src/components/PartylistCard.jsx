@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { deleteParty } from '@/lib/queries/mutations/party/deleteParty'
 
-function PartylistCard({ title, position, data, onSetChoice, handleFormOpen, setTrigger }) {
+function PartylistCard({ title, position, data, onSetChoice, handleFormOpen, setTrigger, vision, mission, goals }) {
   const queryClient = useQueryClient()
   const { mutate: deleteMutation } = useMutation({
     mutationFn: deleteParty,
@@ -24,6 +24,12 @@ function PartylistCard({ title, position, data, onSetChoice, handleFormOpen, set
           <div className='flex items-center gap-3'>
             <h1>{title}</h1>
             {position && <p className='text-gray-400 italic font-sans'>{position}</p>}
+            
+            {/* <p>{vision}</p>
+            <p>{mission}</p>
+            <p>{goals}</p> */}
+
+            
           </div>
           <div className='flex items-center ml-auto gap-6 cursor-pointer'>
             <Button
@@ -49,4 +55,5 @@ function PartylistCard({ title, position, data, onSetChoice, handleFormOpen, set
     </>
   )
 }
+
 export default PartylistCard

@@ -6,7 +6,7 @@ import { useState } from 'react'
 import AddCandidateForm from './Forms/AddCandidateForm'
 import CandidateListCard from '@/components/CandidateListCard'
 
-function Candidate({ name, candidates, partyId }) {
+function Candidate({ name, candidates, partyId , title}) {
   const [isCandidateModalOpen, setIsCandidateModalOpen] = useState(false)
   const [selectedCandidate, setSelectedCandidate] = useState({})
   const [trigger, setTrigger] = useState('create')
