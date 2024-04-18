@@ -1,26 +1,24 @@
 'use client'
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, notification } from 'antd';
-import React from 'react';
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { Button, Checkbox, Form, Input, notification } from 'antd'
+import React from 'react'
 import axios from 'axios'
 
-
 const RegisterForm = () => {
-  const [api, contextHolder] = notification.useNotification();
+  const [api, contextHolder] = notification.useNotification()
   const onFinish = async (values) => {
-    try{
+    try {
       const user = await axios.post('/api/user/register', values)
-      if(user.data){
+      if (user.data) {
         api['success']({
           message: 'Registration Successful',
-          description:
-            'Your vote matters. You can now log in with your account',
-        });
+          description: 'Your vote matters. You can now log in with your account'
+        })
       }
-    }catch (e) {
+    } catch (e) {
       console.error(e)
     }
-  };
+  }
 
   const [registerForm] = Form.useForm()
 
@@ -32,48 +30,60 @@ const RegisterForm = () => {
           name='normal_login'
           className='login-form'
           initialValues={{
-            remember: true,
+            remember: true
           }}
           onFinish={onFinish}
           form={registerForm}
-          layout="vertical"
+          layout='vertical'
         >
           <Form.Item
-            label="Full Name"
+            label='Full Name'
             name='name'
             rules={[
               {
                 required: true,
-                message: 'Please input your name',
-              },
+                message: 'Please input your name'
+              }
             ]}
           >
-            <Input prefix={<UserOutlined className='site-form-item-icon mr-3' />} placeholder='Full Name' style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis:'10px' }}  />
+            <Input
+              prefix={<UserOutlined className='site-form-item-icon mr-3' />}
+              placeholder='Full Name'
+              style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis: '10px' }}
+            />
           </Form.Item>
           <Form.Item
-            label="Email"
+            label='Email'
             name='email'
             rules={[
               {
                 required: true,
-                message: 'Please input your Username!',
-              },
+                message: 'Please input your Username!'
+              }
             ]}
           >
-            <Input prefix={<UserOutlined className='site-form-item-icon mr-3' />} placeholder='Email' style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis:'10px' }}  />
+            <Input
+              prefix={<UserOutlined className='site-form-item-icon mr-3' />}
+              placeholder='Email'
+              style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis: '10px' }}
+            />
           </Form.Item>
           <Form.Item
             name='password'
-            label="Password"
+            label='Password'
             rules={[
               {
                 required: true,
-                message: 'Please input your Password!',
-              },
+                message: 'Please input your Password!'
+              }
             ]}
-
           >
-            <Input prefix={<LockOutlined className='site-form-item-icon mr-3' />} type='password' placeholder='Password' style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis:'10px' }}  />
+            <Input
+              prefix={<LockOutlined className='site-form-item-icon mr-3' />}
+              type='password'
+              placeholder='Password'
+              style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis: '10px' }}
+            />
           </Form.Item>
 
           <Form.Item>
@@ -87,7 +97,7 @@ const RegisterForm = () => {
         </Form>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default RegisterForm;
+export default RegisterForm

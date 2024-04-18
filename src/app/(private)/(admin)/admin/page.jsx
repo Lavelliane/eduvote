@@ -44,18 +44,17 @@ const App = () => {
 
   return (
     <>
-    <div className='w-auto bg-white h-screen px-10 py-6 rounded-lg'>
-    <Tabs
-        defaultActiveKey='1'
-        items={items}
-        onChange={onChange}
-        indicator={{
-          size: (origin) => origin - 20,
-          align: alignValue
-        }}
-      />
-    </div>
-      
+      <div className='w-auto bg-white h-screen px-10 py-6 rounded-lg'>
+        <Tabs
+          defaultActiveKey='1'
+          items={items}
+          onChange={onChange}
+          indicator={{
+            size: (origin) => origin - 20,
+            align: alignValue
+          }}
+        />
+      </div>
     </>
   )
 }

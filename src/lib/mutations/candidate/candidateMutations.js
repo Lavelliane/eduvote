@@ -2,7 +2,8 @@ import axios from 'axios'
 
 export async function createCandidate(data) {
   try {
-    await axios.post('/api/candidate', data)
+    const res = await axios.post('/api/candidate', data)
+    return res.data
   } catch (e) {
     console.error(e)
   }

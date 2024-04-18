@@ -2,7 +2,13 @@ import { leaderboardColumns } from '@/constants/leaderboard'
 import { Table, Card } from 'antd'
 
 function LeaderboardTable({ data, showTitle, position }) {
-  const currentDate = new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
+  const currentDate = new Date().toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+  })
 
   return (
     <>
@@ -17,7 +23,7 @@ function LeaderboardTable({ data, showTitle, position }) {
           <h4 className='mt-5 mb-5 text-small font-semibold font-sans '>{position}</h4>
         </div>
         <div className='flex justify-center'>
-        <style>
+          <style>
             {`
               .custom-table .ant-table-cell {
                 background-color: transparent !important;
@@ -28,11 +34,16 @@ function LeaderboardTable({ data, showTitle, position }) {
               }
             `}
           </style>
-          <Table columns={leaderboardColumns} dataSource={data} pagination={false} style={{ width: '100%'  }} className="custom-table" />
-          
+          <Table
+            columns={leaderboardColumns}
+            dataSource={data}
+            pagination={false}
+            style={{ width: '100%' }}
+            className='custom-table'
+          />
         </div>
       </Card>
     </>
   )
 }
-export default LeaderboardTable;
+export default LeaderboardTable

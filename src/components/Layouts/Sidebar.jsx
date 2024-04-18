@@ -18,22 +18,22 @@ function getItem(label, key, icon, children) {
 }
 
 const items2 = [
-  getItem('Help Centre', '/help', <CircleHelp size={20} color="#7C8DB5" />),
-  getItem('Contact us', '/contact-us', <Phone size={20} color="#7C8DB5" />),
-  getItem('Log out', '/sign-out', <LogOut size={20} color="#FF7074"/>)
+  getItem('Help Centre', '/help', <CircleHelp size={20} color='#7C8DB5' />),
+  getItem('Contact us', '/contact-us', <Phone size={20} color='#7C8DB5' />),
+  getItem('Log out', '/sign-out', <LogOut size={20} color='#FF7074' />)
 ]
 export default function Sidebar({ children }) {
   const [collapsed, setCollapsed] = useState(false)
   const router = useRouter()
   const { data: parties, isLoading } = useQuery({ queryKey: ['parties'], queryFn: getParties })
   const { data: session, status } = useSession()
-  function handleNavigate(item){
+  function handleNavigate(item) {
     console.log(item)
-    if(item.key === '/sign-out'){
+    if (item.key === '/sign-out') {
       console.log(item.key)
       signOut().then((res) => console.log(res))
       router.push('/login')
-    }else{
+    } else {
       console.log(item)
       router.push(item.key)
     }
@@ -52,30 +52,20 @@ export default function Sidebar({ children }) {
   }
 
   const items1 = [
-    getItem('Dashboard', '/dashboard', <Gauge size={20} color="#7C8DB5" />),
-    getItem(
-      'Candidates',
-      'sub1',
-      <Users size={20} color="#7C8DB5" />,
-      generateCandidatesMenuItems(parties)
-    ),
-    getItem('Vote', '/vote', <CircleCheck size={20} color="#7C8DB5" />)
+    getItem('Dashboard', '/dashboard', <Gauge size={20} color='#7C8DB5' />),
+    getItem('Candidates', 'sub1', <Users size={20} color='#7C8DB5' />, generateCandidatesMenuItems(parties)),
+    getItem('Vote', '/vote', <CircleCheck size={20} color='#7C8DB5' />)
   ]
 
   const itemsAdmin = [
-    getItem('Dashboard', '/dashboard', <Gauge size={20} color="#7C8DB5" />),
-    getItem(
-      'Candidates',
-      'sub1',
-      <Users size={20} color="#7C8DB5" />,
-      generateCandidatesMenuItems(parties)
-    ),
-    getItem('Vote', '/vote', <CircleCheck size={20} color="#7C8DB5" />),
-    getItem('Admin', '/admin', <ShieldCheck size={20} color="#7C8DB5" />)
+    getItem('Dashboard', '/dashboard', <Gauge size={20} color='#7C8DB5' />),
+    getItem('Candidates', 'sub1', <Users size={20} color='#7C8DB5' />, generateCandidatesMenuItems(parties)),
+    getItem('Vote', '/vote', <CircleCheck size={20} color='#7C8DB5' />),
+    getItem('Admin', '/admin', <ShieldCheck size={20} color='#7C8DB5' />)
   ]
 
   useEffect(() => {
-    if(status === "unauthenticated"){
+    if (status === 'unauthenticated') {
       router.push('/login')
     }
     console.log(session)
@@ -97,7 +87,7 @@ export default function Sidebar({ children }) {
         <Menu
           defaultSelectedKeys={['1']}
           mode='inline'
-          items={session && session?.user?.role === 'ADMIN' ? itemsAdmin: items1}
+          items={session && session?.user?.role === 'ADMIN' ? itemsAdmin : items1}
           style={{ backgroundColor: 'white', color: '#7C8DB5' }}
           className='font-sans pt-9 text-[#7C8DB5]'
           onClick={handleNavigate}

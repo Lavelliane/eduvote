@@ -3,7 +3,7 @@ import { Card } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { deleteCandidate } from '@/lib/mutations/candidate/candidateMutations'
-import { Button} from 'antd'
+import { Button } from 'antd'
 
 export default function CandidateListCard({ onSetChoice, data, handleFormOpen, title, position, setTrigger }) {
   const queryClient = useQueryClient()
@@ -29,14 +29,28 @@ export default function CandidateListCard({ onSetChoice, data, handleFormOpen, t
                 setTrigger('edit')
                 handleFormOpen()
               }}
-              style={{ color: '#00AC4F', border: '2px solid #1DEF6A', backgroundColor: 'rgba(61, 240, 127, 0.2)', borderRadius: '8px' }}
-            >Update</Button>
+              style={{
+                color: '#00AC4F',
+                border: '2px solid #1DEF6A',
+                backgroundColor: 'rgba(61, 240, 127, 0.2)',
+                borderRadius: '8px'
+              }}
+            >
+              Update
+            </Button>
             <Button
               onClick={() => {
                 deleteCandidateMutation(data)
               }}
-              style={{ color: '#FF6262', border: '2px solid #FF6262', backgroundColor: 'rgba(240, 136, 61, 0.2)', borderRadius: '8px' }}
-            >Delete</Button>
+              style={{
+                color: '#FF6262',
+                border: '2px solid #FF6262',
+                backgroundColor: 'rgba(240, 136, 61, 0.2)',
+                borderRadius: '8px'
+              }}
+            >
+              Delete
+            </Button>
           </div>
         </div>
       </Card>
