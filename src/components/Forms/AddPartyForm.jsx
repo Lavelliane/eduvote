@@ -51,21 +51,43 @@ function AddPartyForm({ handleModalClose, data, trigger }) {
   }, [data, partyForm])
 
   return (
-    <Form form={partyForm} name='party-form' onFinish={onFinish}>
-      <Form.Item label='Party Name' name='name' rules={[{ required: true, message: 'Please input party name!' }]}>
-        <Input />
-      </Form.Item>
-      <Form.Item label='Vision' name='vision' rules={[{ required: true, message: 'Please input vision!' }]}>
-        <Input.TextArea />
-      </Form.Item>
-      <Form.Item label='Mission' name='mission' rules={[{ required: true, message: 'Please input mission!' }]}>
-        <Input.TextArea />
-      </Form.Item>
-      <Form.Item label='Goals' name='goals' rules={[{ required: true, message: 'Please input goals!' }]}>
-        <Input.TextArea />
-      </Form.Item>
-      <Button htmlType='submit'>{trigger === 'edit' ? 'Edit Party' : 'Create Party'}</Button>
-    </Form>
+    <Form form={partyForm} name='party-form' onFinish={onFinish} style={{ maxWidth: '500px', margin: 'auto' }}>
+    <Form.Item
+      label={<span style={{ color: 'black' }}>Party Name</span>}
+      name='name'
+      rules={[{ message: 'Please input party name!' }]}
+    >
+      <Input style={{ width: '100%', borderRadius: '5px' }} />
+    </Form.Item>
+    <Form.Item
+      label={<span style={{ color: 'black' }}>Vision</span>}
+      name='vision'
+      rules={[{ required: true, message: 'Please input vision!' }]}
+    >
+      <Input.TextArea style={{ width: '100%', borderRadius: '5px' }} />
+    </Form.Item>
+    <Form.Item
+      label={<span style={{ color: '', fontWeight: 'bold' }}>Mission</span>}
+      name='mission'
+      rules={[{ required: true, message: 'Please input mission!' }]}
+    >
+      <Input.TextArea style={{ width: '100%', borderRadius: '5px' }} />
+    </Form.Item>
+    <Form.Item
+      label={<span style={{ color: 'black' }}>Goals</span>}
+      name='goals'
+      rules={[{ required: true, message: 'Please input goals!' }]}
+    >
+      <Input.TextArea style={{ width: '100%', borderRadius: '5px' }} />
+    </Form.Item>
+    <Form.Item>
+      <Button  htmlType='submit' style={{ width: '100%', borderRadius: '5px', backgroundColor: '#3DF07F' }}>
+        {trigger === 'edit' ? 'Edit Party' : 'Create Party'}
+      </Button>
+    </Form.Item>
+  </Form>
+  
+    
   )
 }
 export default AddPartyForm
