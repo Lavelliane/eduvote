@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React from 'react'
 
 function PartyData({ title, vision, mission, goals }) {
   return (
@@ -13,10 +12,8 @@ function PartyData({ title, vision, mission, goals }) {
       <p>{goals}</p>
 
       <h2 className='font-sans font-bold text-[20px]'>Candidates</h2>
-
-
     </div>
-  );
+  )
 }
 
-export default PartyData;
+export default PartyData

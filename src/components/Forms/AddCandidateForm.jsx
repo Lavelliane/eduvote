@@ -3,15 +3,30 @@ import { Button, Form, Input, InputNumber, Select } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createCandidate, updateCandidate } from '@/lib/mutations/candidate/candidateMutations'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { omit } from 'lodash'
+import { PlusOutlined } from '@ant-design/icons'
+import { Image, Upload } from 'antd'
+import { createClient } from '@supabase/supabase-js'
+import { decode } from 'base64-arraybuffer'
+
+const supabase = createClient(`${process.env.NEXT_PUBLIC_SUPABASE_DOMAIN}`, `${process.env.NEXT_PUBLIC_SUPABASE_KEY}`)
 
 function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) {
   const queryClient = useQueryClient()
-  const { mutate: createCandidateMutation } = useMutation({
+  const [fileList, setFileList] = useState([])
+  const [previewOpen, setPreviewOpen] = useState(false)
+  const [previewImage, setPreviewImage] = useState('')
+  const [createdOrUpdatedCandidate, setCreatedOrUpdatedCandidate] = useState(null)
+  const {
+    mutate: createCandidateMutation,
+    data: createdCandidate,
+    isSuccess
+  } = useMutation({
     mutationFn: createCandidate,
-    onSuccess: () => {
+    onSuccess: (response) => {
       // Invalidate and refetch
+      setCreatedOrUpdatedCandidate(response.candidate)
       queryClient.invalidateQueries({ queryKey: ['candidates'] })
     }
   })
@@ -34,7 +49,31 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
       candidateForm.resetFields()
     }
   }, [candidateData, candidateForm])
-  const handleSubmit = (values) => {
+
+  async function uploadImage(id) {
+    // const fileToUpload = await getBase64(fileList[0].originFileObj)
+    const { data, error } = await supabase.storage.from('avatars').upload(`${id}/avatar`, fileList[0].originFileObj, {
+      cacheControl: '3600',
+      upsert: false
+    })
+    const { data: url } = supabase
+        .storage
+        .from('avatars')
+        .getPublicUrl(`${id}/avatar`)
+    console.log(url.publicUrl)
+    updateCandidateMutation({img_url: url.publicUrl, id})
+  }
+
+  useEffect(() => {
+    if (isSuccess) {
+     uploadImage(createdOrUpdatedCandidate.id).then((res) => {
+       if(res){
+         console.log('Candidate created successfully')
+       }
+     })
+    }
+  }, [isSuccess])
+  const handleSubmit = async (values) => {
     if (trigger === 'create') {
       createCandidateMutation({ ...values, party_id: partyId })
     } else {
@@ -43,8 +82,39 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
     handleFormClose()
   }
 
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList)
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj)
+    }
+    setPreviewImage(file.url || file.preview)
+    setPreviewOpen(true)
+  }
+
+  const uploadButton = (
+    <button
+      style={{
+        border: 0,
+        background: 'none'
+      }}
+      type='button'
+    >
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8
+        }}
+      >
+        Upload
+      </div>
+    </button>
+  )
+
+  useEffect(() => {
+    console.log(fileList)
+  }, [fileList])
+
   return (
-    
     <Form
       name='candidate-form'
       labelCol={{ span: 8 }}
@@ -86,6 +156,30 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
       <Form.Item name='advocacy' label='Advocacy' rules={[{ required: true, message: 'Please enter the advocacy' }]}>
         <Input.TextArea />
       </Form.Item>
+      <Form.Item name='candidate_image'>
+        <Upload
+          listType='picture-circle'
+          fileList={fileList}
+          onPreview={handlePreview}
+          onChange={handleChange}
+          accept='image/png, image/jpeg'
+        >
+          {fileList.length >= 1 ? null : uploadButton}
+        </Upload>
+        {previewImage && (
+          <Image
+            wrapperStyle={{
+              display: 'none'
+            }}
+            preview={{
+              visible: previewOpen,
+              onVisibleChange: (visible) => setPreviewOpen(visible),
+              afterOpenChange: (visible) => !visible && setPreviewImage('')
+            }}
+            src={previewImage}
+          />
+        )}
+      </Form.Item>
       <Button htmlType='submit' type='primary'>
         {trigger === 'create' ? 'Add Candidate' : 'Update Candidate'}
       </Button>
@@ -94,3 +188,11 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
 }
 
 export default AddCandidateForm
+
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = (error) => reject(error)
+  })

@@ -10,8 +10,10 @@ function RegisterPage() {
         <div className='w-[34%] p-6 ml-20 rounded-[30px] border-[#E6EDFF] solid border mb-30 px-14 py-10 bg-white'>
           <p className='font-sans text-[#20115B] text-2xl font-semibold mb-4'>Sign Up</p>
           <p className='font-sans text-[#32403B] mt-4'>
-            Please sign in to your HNU email to access the <br /> voting system.
-            Already have an account? <Link href="/login" className="font-semibold cursor-pointer text-[#3DF07F]">Login Here</Link>
+            Please sign in to your HNU email to access the <br /> voting system. Already have an account?{' '}
+            <Link href='/login' className='font-semibold cursor-pointer text-[#3DF07F]'>
+              Login Here
+            </Link>
           </p>
           <RegisterForm />
         </div>
@@ -21,7 +23,6 @@ function RegisterPage() {
         <img src='bgLogin.svg' alt='survey' className='' />
       </div>
     </div>
-
   )
 }
 

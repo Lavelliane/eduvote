@@ -37,7 +37,7 @@ export default function VotePage() {
   })
 
   useEffect(() => {
-    if(session && session.user.hasVoted){
+    if (session && session.user.hasVoted) {
       router.push('/voting-success')
     }
   }, [session])

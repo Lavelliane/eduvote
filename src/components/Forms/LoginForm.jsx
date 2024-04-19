@@ -1,23 +1,23 @@
 'use client'
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input } from 'antd';
-import React from 'react';
-import { signIn } from "next-auth/react";
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { Button, Checkbox, Form, Input } from 'antd'
+import React from 'react'
+import { signIn } from 'next-auth/react'
 import Cookies from 'js-cookie'
 
 const LoginForm = () => {
   const onFinish = async (values) => {
     try {
-      let res = await signIn("credentials", {
+      let res = await signIn('credentials', {
         ...values,
         callbackUrl: '/dashboard',
-        redirect: true,
-      });
-      console.log("success");
-    }catch (e) {
+        redirect: true
+      })
+      console.log('success')
+    } catch (e) {
       console.error(e)
     }
-  };
+  }
 
   const [loginForm] = Form.useForm()
 
@@ -27,7 +27,7 @@ const LoginForm = () => {
         name='normal_login'
         className='login-form'
         initialValues={{
-          remember: true,
+          remember: true
         }}
         onFinish={onFinish}
         form={loginForm}
@@ -38,11 +38,15 @@ const LoginForm = () => {
           rules={[
             {
               required: true,
-              message: 'Please input your Username!',
-            },
+              message: 'Please input your Username!'
+            }
           ]}
         >
-          <Input prefix={<UserOutlined className='site-form-item-icon mr-3' />} placeholder='Username' style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis:'10px' }}  />
+          <Input
+            prefix={<UserOutlined className='site-form-item-icon mr-3' />}
+            placeholder='Username'
+            style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis: '10px' }}
+          />
         </Form.Item>
         <h1 className='font-sans mb-3'>Password</h1>
         <Form.Item
@@ -50,12 +54,16 @@ const LoginForm = () => {
           rules={[
             {
               required: true,
-              message: 'Please input your Password!',
-            },
+              message: 'Please input your Password!'
+            }
           ]}
-          
         >
-          <Input prefix={<LockOutlined className='site-form-item-icon mr-3' />} type='password' placeholder='Password' style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis:'10px' }}  />
+          <Input
+            prefix={<LockOutlined className='site-form-item-icon mr-3' />}
+            type='password'
+            placeholder='Password'
+            style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis: '10px' }}
+          />
         </Form.Item>
 
         <Form.Item>
@@ -68,7 +76,7 @@ const LoginForm = () => {
         </Form.Item>
       </Form>
     </div>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

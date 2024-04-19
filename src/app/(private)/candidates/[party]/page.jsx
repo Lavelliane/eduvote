@@ -28,16 +28,13 @@ export default function PartyPage({ params }) {
   //Tip: Use conditional rendering (party ? (<Component for party>) : (<Loading component>)) OR (party && <Component for party>)
   return (
     <>
-      
-        <Spin spinning={isLoading}>
-          {!isLoading && party && (
-            <>
-              <PartyData title={party.name} vision={party.vision} mission={party.mission} goals={party.goals}/>
-              
-            </>
-          )}
-        </Spin>
-      
+      <Spin spinning={isLoading}>
+        {!isLoading && party && (
+          <>
+            <PartyData title={party.name} vision={party.vision} mission={party.mission} goals={party.goals} />
+          </>
+        )}
+      </Spin>
     </>
   )
 }

@@ -49,4 +49,4 @@ function Party() {
     </>
   )
 }
-export default Party;
+export default Party
