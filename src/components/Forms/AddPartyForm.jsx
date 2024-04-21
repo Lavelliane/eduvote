@@ -1,5 +1,4 @@
 'use client'
-
 import { Form, Input, Button } from 'antd'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createParty } from '@/lib/queries/party/createParty'

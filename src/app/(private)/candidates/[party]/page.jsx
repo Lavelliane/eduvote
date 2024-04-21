@@ -33,8 +33,9 @@ export default function PartyPage({ params }) {
       <Spin spinning={isLoading}>
         {!isLoading && party && (
           <>
-            <PartyData title={party.name} vision={party.vision} mission={party.mission} goals={party.goals} />
-            <Row gutter={[16, 24]} className='flex gap-4 flex-row items-center justify-evenly'>
+           <Card>
+           <PartyData title={party.name} vision={party.vision} mission={party.mission} goals={party.goals} />
+            <Row gutter={[16, 24]} className='flex gap-2 flex-row items-center justify-evenly font-sans'>
               {party.candidates.map((candidates, index) => (
                 <Col span={4} key={index}>
                   <CandidateData
@@ -46,6 +47,8 @@ export default function PartyPage({ params }) {
                 </Col>
               ))}
             </Row>
+           </Card>
+           
           </>
         )}
       </Spin>
