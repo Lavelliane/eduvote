@@ -19,6 +19,7 @@ model Party {
   vision          String?
   mission         String?
   goals           String?
+  filename        String?
   number_of_votes Int?        @default(0)
   candidates      Candidate[]
 
@@ -43,6 +44,7 @@ model Candidate {
   advocacy        String?
   course          String
   img_url         String?
+  filename        String?
   number_of_votes Int?    @default(0)
 
   party Party @relation(fields: [party_id], references: [id], onDelete: Cascade)

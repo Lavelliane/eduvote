@@ -41,7 +41,7 @@ export default function PartyPage({ params }) {
                     key={candidates.id}
                     name={candidates.name}
                     position={candidates.position}
-                    img_url={candidates.img_url}
+                    img_url={candidates.filename}
                   />
                 </Col>
               ))}

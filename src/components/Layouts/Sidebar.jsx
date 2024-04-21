@@ -80,7 +80,7 @@ export default function Sidebar({ children }) {
         style={{ backgroundColor: 'white' }}
         className='text-[#7C8DB5] w-[200px]'
       >
-        <img className='pt-14 pl-4 w-32 h-34 self-center z-3' src='edulogo.svg' alt='logo-eduvote' />
+        <img className='pt-14 pl-4 w-32 h-34 self-center z-3' src='/edulogo.svg' alt='logo-eduvote' />
         <div className='demo-logo-vertical' />
 
         {/* First Menu */}
