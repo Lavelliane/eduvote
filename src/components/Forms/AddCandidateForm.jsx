@@ -56,21 +56,18 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
       cacheControl: '3600',
       upsert: false
     })
-    const { data: url } = supabase
-        .storage
-        .from('avatars')
-        .getPublicUrl(`${id}/avatar`)
+    const { data: url } = supabase.storage.from('avatars').getPublicUrl(`${id}/avatar`)
     console.log(url.publicUrl)
-    updateCandidateMutation({img_url: url.publicUrl, id})
+    updateCandidateMutation({ img_url: url.publicUrl, id })
   }
 
   useEffect(() => {
     if (isSuccess) {
-     uploadImage(createdOrUpdatedCandidate.id).then((res) => {
-       if(res){
-         console.log('Candidate created successfully')
-       }
-     })
+      uploadImage(createdOrUpdatedCandidate.id).then((res) => {
+        if (res) {
+          console.log('Candidate created successfully')
+        }
+      })
     }
   }, [isSuccess])
   const handleSubmit = async (values) => {
