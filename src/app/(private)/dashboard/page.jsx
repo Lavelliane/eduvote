@@ -6,6 +6,10 @@ import { positionsArray } from '@/app/(private)/vote/page'
 import { useQuery } from '@tanstack/react-query'
 import { getCandidates } from '@/lib/queries/candidate/getCandidates'
 import axios from 'axios'
+import randomColor from 'randomcolor'
+import { Doughnut } from 'react-chartjs-2'
+import {Chart, ArcElement, Tooltip, Legend} from 'chart.js'
+Chart.register(ArcElement, Tooltip, Legend);
 
 const dummyData = [
   {
@@ -33,6 +37,7 @@ async function getVoterCount(){
 
 function DashboardPage() {
   const [positions, setPositions] = useState({})
+  const [partyStats, setPartyStats] = useState({})
   const { data: candidatesData, isLoading } = useQuery({
     queryFn: getCandidates,
     queryKey: ['candidates']
@@ -46,6 +51,18 @@ function DashboardPage() {
   useEffect(() => {
     if (!isLoading && candidatesData && candidatesData.length > 0) {
       const result = {}
+      // console.log(candidatesData.map((party) => party.name))
+      setPartyStats({
+        labels: candidatesData.map((party) => party.name),
+        datasets: [
+          {
+            label: 'Votes per party',
+            data: candidatesData.map((party) => party.number_of_votes),
+            backgroundColor: candidatesData.map((party) => randomColor()),
+            hoverBackgroundColor: candidatesData.map((party) => randomColor()),
+          },
+        ],
+      })
 
       positionsArray.forEach((position) => {
         result[position] = []
@@ -75,9 +92,9 @@ function DashboardPage() {
     }
   }, [isLoading, candidatesData, positionsArray])
 
-  // useEffect(() => {
-  //   console.log(countVoters)
-  // }, [countVoters])
+  useEffect(() => {
+    console.log(partyStats)
+  }, [partyStats])
 
   return (
     <>
@@ -101,6 +118,10 @@ function DashboardPage() {
           <hr className='h-30 w-28 transform rotate-90 bg-[#E6EDFF]' />
         </div>
       </Card>
+
+      <div className='w-[300px] h-auto my-[20px]'>
+        { Object.keys(partyStats).length > 0 && partyStats.labels && partyStats.datasets.length > 0 && <Doughnut data={partyStats} config={{type: 'doughnut'}} />}
+      </div>
 
       { Object.keys(positions).length > 0  && positionsArray.map((position, key) => {
         const toRender = positions[`${position}`]
