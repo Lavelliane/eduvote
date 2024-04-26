@@ -1,4 +1,5 @@
 import React from 'react'
+import ViewMore from './Layouts/ViewMore'
 
 function CandidateData({ name, position, img_url }) {
   return (
@@ -10,6 +11,7 @@ function CandidateData({ name, position, img_url }) {
           <p className='font-semibold text-base'>{position}</p>
         </div>
       </div>
+      
     </div>
   )
 }

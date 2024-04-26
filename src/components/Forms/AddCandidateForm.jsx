@@ -128,6 +128,8 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
       autoComplete='off'
       form={candidateForm}
       onFinish={handleSubmit}
+      requiredMark={false}
+      layout = 'vertical'
     >
       <Form.Item name='name' label='Name' rules={[{ required: true, message: 'Please enter name' }]}>
         <Input />
@@ -185,7 +187,7 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
           />
         )}
       </Form.Item>
-      <Button htmlType='submit' type='primary'>
+      <Button htmlType='submit' type='primary' style={{ color: 'white' }} >
         {trigger === 'create' ? 'Add Candidate' : 'Update Candidate'}
       </Button>
     </Form>

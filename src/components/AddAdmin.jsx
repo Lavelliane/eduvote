@@ -30,7 +30,7 @@ const RegisterForm = () => {
   return (
     <>
       {contextHolder}
-      <div className='mt-10'>
+      <div className='mt-10 flex justify-center'>
         <Form
           name='normal_login'
           className='login-form'
@@ -40,6 +40,7 @@ const RegisterForm = () => {
           onFinish={onFinish}
           form={registerForm}
           layout='vertical'
+          requiredMark={false}
         >
           <Form.Item
             label='Full Name'
@@ -54,7 +55,7 @@ const RegisterForm = () => {
             <Input
               prefix={<UserOutlined className='site-form-item-icon mr-3' />}
               placeholder='Full Name'
-              style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis: '10px' }}
+              style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis: '10px', width: '100%', fontStye: 'bold' }}
             />
           </Form.Item>
           <Form.Item
@@ -70,7 +71,7 @@ const RegisterForm = () => {
             <Input
               prefix={<UserOutlined className='site-form-item-icon mr-3' />}
               placeholder='Email'
-              style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis: '10px' }}
+              style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis: '10px', width: '100%' }}
             />
           </Form.Item>
           <Form.Item
@@ -86,7 +87,7 @@ const RegisterForm = () => {
             <Input.Password
               prefix={<LockOutlined className='site-form-item-icon mr-3' />}
               placeholder='Password'
-              style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis: '10px' }}
+              style={{ height: '40px', border: '1px solid rgba(0, 0, 0, 0.1)', borderRaduis: '10px', width: '100%'}}
             />
           </Form.Item>
 

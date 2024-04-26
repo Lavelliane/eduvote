@@ -35,6 +35,7 @@ const RegisterForm = () => {
           onFinish={onFinish}
           form={registerForm}
           layout='vertical'
+          requiredMark={false}
         >
           <Form.Item
             label='Full Name'
