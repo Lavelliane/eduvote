@@ -9,6 +9,8 @@ import axios from 'axios'
 import randomColor from 'randomcolor'
 import { Doughnut } from 'react-chartjs-2'
 import {Chart, ArcElement, Tooltip, Legend} from 'chart.js'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 Chart.register(ArcElement, Tooltip, Legend);
 
 const dummyData = [
@@ -42,11 +44,20 @@ function DashboardPage() {
     queryFn: getCandidates,
     queryKey: ['candidates']
   })
+  const { data: session } = useSession()
+  const router = useRouter()
 
   const { data: countVoters, isLoading: isCountLoading } = useQuery({
     queryFn: getVoterCount,
     queryKey: ['voters-count']
   })
+  useEffect(() => {
+    if(session){
+      if(!session.user.year && !session.user.role === 'ADMIN'){
+        router.push('/onboarding')
+      }
+    }
+  }, [session])
 
   useEffect(() => {
     if (!isLoading && candidatesData && candidatesData.length > 0) {
@@ -98,6 +109,7 @@ function DashboardPage() {
 
   return (
     <>
+      <p className='text-2xl font-bold mb-5'>Statistics</p>
       <Card className='h-40 w-[54%] flex items-center rounded-2xl border border-[#E6EDFF] '>
         <div className='flex items-center font-sans'>
           <div className='flex items-center flex-col mr-8 p-6'>
@@ -119,6 +131,7 @@ function DashboardPage() {
         </div>
       </Card>
 
+
       <div className='w-[300px] h-auto my-[20px]'>
         { Object.keys(partyStats).length > 0 && partyStats.labels && partyStats.datasets.length > 0 && <Doughnut data={partyStats} config={{type: 'doughnut'}} />}
       </div>
@@ -138,7 +151,7 @@ function DashboardPage() {
           }))
 
           return (
-            <LeaderboardTable data={data} showTitle={true} position={position} key={key} />
+            <LeaderboardTable data={data} showTitle={key === 0 ? true : false} position={position} key={key} />
           )
         }
       })}
