@@ -1,3 +1,5 @@
+import { Progress } from 'antd'
+
 export const leaderboardColumns = [
   {
     title: 'No',
@@ -16,7 +18,11 @@ export const leaderboardColumns = [
   },
   {
     dataIndex: 'votePercentage',
-    key: 'votePercentage'
+    key: 'votePercentage',
+    render: (text, record) => {
+      const isWinning = record.isWinning
+      return <Progress percent={Number.parseInt(text)} strokeColor={isWinning ? '#00ac4f' : '#FA7070'} />
+    }
   },
   {
     title: 'Total Votes',

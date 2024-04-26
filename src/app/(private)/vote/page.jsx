@@ -7,8 +7,9 @@ import VotingTable from '@/components/VotingTable'
 import { submitVote } from '@/lib/mutations/votes/voteMutations'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
+import axios from 'axios'
 
-const positionsArray = [
+export const positionsArray = [
   'Governor',
   'Vice Governor',
   'Secretary',
@@ -46,7 +47,8 @@ export default function VotePage() {
     try {
       setIsSubmitting(true)
       const data = await submitVoteMutation(votes)
-      if (data) {
+      const user = await axios.patch('/api/user/update', { hasVoted: true, id: session.user.id })
+      if (data && user) {
         setIsSubmitting(false)
       }
       setIsSubmitting(false)
