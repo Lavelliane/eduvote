@@ -8,8 +8,8 @@ import { getCandidates } from '@/lib/queries/candidate/getCandidates'
 import axios from 'axios'
 import randomColor from 'randomcolor'
 import { Doughnut } from 'react-chartjs-2'
-import {Chart, ArcElement, Tooltip, Legend} from 'chart.js'
-Chart.register(ArcElement, Tooltip, Legend);
+import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
+Chart.register(ArcElement, Tooltip, Legend)
 
 const dummyData = [
   {
@@ -30,7 +30,7 @@ const dummyData = [
   }
 ]
 
-async function getVoterCount(){
+async function getVoterCount() {
   const res = await axios.get('/api/user/count')
   return res.data.count
 }
@@ -59,9 +59,9 @@ function DashboardPage() {
             label: 'Votes per party',
             data: candidatesData.map((party) => party.number_of_votes),
             backgroundColor: candidatesData.map((party) => randomColor()),
-            hoverBackgroundColor: candidatesData.map((party) => randomColor()),
-          },
-        ],
+            hoverBackgroundColor: candidatesData.map((party) => randomColor())
+          }
+        ]
       })
 
       positionsArray.forEach((position) => {
@@ -81,7 +81,7 @@ function DashboardPage() {
               candidateId: candidate.id,
               partyId: party.id,
               numberOfVotes: candidate.number_of_votes,
-              position: candidate.position,
+              position: candidate.position
             })
           }
         })
@@ -98,50 +98,63 @@ function DashboardPage() {
 
   return (
     <>
-      <Card className='h-40 w-[54%] flex items-center rounded-2xl border border-[#E6EDFF] '>
-        <div className='flex items-center font-sans'>
-          <div className='flex items-center flex-col mr-8 p-6'>
-            <h1 className='mr-2 font-semibold text-3xl '>{candidatesData && candidatesData.reduce((acc, current) => acc + current.number_of_votes, 0)}</h1>
-            <p className='text-sm whitespace-nowrap'>Total votes</p>
+      <div className='w-full text-white flex bg-gradient-to-r from-[#fef08a] to-green-500 h-40 mb-6 rounded-2xl flex-col'>
+        <p className='inline-block text-3xl ml-6 mt-7 font-semibold'>Welcome to EduVote</p>
+        <p className='ml-6 font-semibold'> Student Voices through Voting</p>
+      </div>
+      
+
+      <div className='flex'>
+        <div className='flex w-max bg-[#fef2f2]  rounded-2xl '>
+          <div className='flex items-center flex-col mr-8 p-6 h-44'>
+            <h1 className='mr-2 font-semibold text-3xl text-[#f87171] '>
+              {candidatesData && candidatesData.reduce((acc, current) => acc + current.number_of_votes, 0)}
+            </h1>
+            <p className='text-sm whitespace-nowrap text-[#f87171]'>Total votes</p>
           </div>
           <div className='ml-8 mb-10'>
-            <img className='w-24 h-24' src='icon.svg' alt='users' />
+            <img className='w-10 h-10' src='icon.svg' alt='users' />
           </div>
-          <hr className='h-30 w-28 transform rotate-90 ' />
-          <div className='flex items-center flex-col ml-8'>
-            <h1 className='font-semibold text-3xl mr-auto '>{countVoters ? countVoters : 0}</h1>
-            <p className='text-sm whitespace-nowrap'>Registered Voters</p>
+        </div>
+
+        <div className='flex w-max ml-4 bg-[#fffbeb] rounded-2xl h-30'>
+        <div className='flex items-center flex-col mr-8 p-6'>
+            <h1 className='font-semibold text-3xl mr-auto text-[#fbbf24]'>{countVoters ? countVoters : 0}</h1>
+            <p className='text-sm whitespace-nowrap text-[#fbbf24]'>Registered Voters</p>
           </div>
           <div className='ml-10 mb-10'>
-            <img className='w-24 h-24' src='registervoter.svg' alt='register' />
+            <img className='w-10 h-10' src='registervoter.svg' alt='register' />
           </div>
-          <hr className='h-30 w-28 transform rotate-90 bg-[#E6EDFF]' />
+         
         </div>
-      </Card>
 
-      <div className='w-[300px] h-auto my-[20px]'>
+        <div className='w-[300px] h-auto my-[20px]'>
         { Object.keys(partyStats).length > 0 && partyStats.labels && partyStats.datasets.length > 0 && <Doughnut data={partyStats} config={{type: 'doughnut'}} />}
       </div>
+      </div>
 
-      { Object.keys(positions).length > 0  && positionsArray.map((position, key) => {
-        const toRender = positions[`${position}`]
-        if(toRender.length > 0){
-          const totalVotes = toRender.reduce((acc, current) => { return acc + current.numberOfVotes }, 0)
-          const data = toRender.map((candidate, i) => ({
-            number: i+1,
-            name: candidate.name,
-            party: candidate.party,
-            votePercentage: (candidate.numberOfVotes / totalVotes) * 100,
-            totalVotes: candidate.numberOfVotes,
-            position: position,
-            isWinning: ((candidate.numberOfVotes / totalVotes) * 100) >= 50
-          }))
+      
 
-          return (
-            <LeaderboardTable data={data} showTitle={true} position={position} key={key} />
-          )
-        }
-      })}
+      {Object.keys(positions).length > 0 &&
+        positionsArray.map((position, key) => {
+          const toRender = positions[`${position}`]
+          if (toRender.length > 0) {
+            const totalVotes = toRender.reduce((acc, current) => {
+              return acc + current.numberOfVotes
+            }, 0)
+            const data = toRender.map((candidate, i) => ({
+              number: i + 1,
+              name: candidate.name,
+              party: candidate.party,
+              votePercentage: (candidate.numberOfVotes / totalVotes) * 100,
+              totalVotes: candidate.numberOfVotes,
+              position: position,
+              isWinning: (candidate.numberOfVotes / totalVotes) * 100 >= 50
+            }))
+
+            return <LeaderboardTable data={data} showTitle={true} position={position} key={key} />
+          }
+        })}
     </>
   )
 }

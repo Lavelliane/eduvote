@@ -143,7 +143,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+       <img src="backgroun.svg" alt="background" />
       <h1 className='text-center text-2xl font-semibold mb-10'>Key Features</h1>
 
       <div className='flex justify-center  '>
