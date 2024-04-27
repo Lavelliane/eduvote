@@ -8,8 +8,10 @@ import { getCandidates } from '@/lib/queries/candidate/getCandidates'
 import axios from 'axios'
 import randomColor from 'randomcolor'
 import { Doughnut } from 'react-chartjs-2'
-import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
-Chart.register(ArcElement, Tooltip, Legend)
+import {Chart, ArcElement, Tooltip, Legend} from 'chart.js'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+Chart.register(ArcElement, Tooltip, Legend);
 
 const dummyData = [
   {
@@ -42,11 +44,20 @@ function DashboardPage() {
     queryFn: getCandidates,
     queryKey: ['candidates']
   })
+  const { data: session } = useSession()
+  const router = useRouter()
 
   const { data: countVoters, isLoading: isCountLoading } = useQuery({
     queryFn: getVoterCount,
     queryKey: ['voters-count']
   })
+  useEffect(() => {
+    if(session){
+      if(!session.user.year && !session.user.role === 'ADMIN'){
+        router.push('/onboarding')
+      }
+    }
+  }, [session])
 
   useEffect(() => {
     if (!isLoading && candidatesData && candidatesData.length > 0) {
@@ -152,9 +163,11 @@ function DashboardPage() {
               isWinning: (candidate.numberOfVotes / totalVotes) * 100 >= 50
             }))
 
-            return <LeaderboardTable data={data} showTitle={true} position={position} key={key} />
-          }
-        })}
+          return (
+            <LeaderboardTable data={data} showTitle={key === 0 ? true : false} position={position} key={key} />
+          )
+        }
+      })}
     </>
   )
 }
