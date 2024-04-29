@@ -34,7 +34,7 @@ export default function VotePage() {
   const router = useRouter()
 
   const { mutate: submitVoteMutation } = useMutation({
-    mutationFn: submitVote
+    mutationFn: (data) => submitVote(data)
   })
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function VotePage() {
   const handleSubmit = async () => {
     try {
       setIsSubmitting(true)
-      const data = await submitVoteMutation(votes)
+      const data = submitVoteMutation(votes)
       const user = await axios.patch('/api/user/update', { hasVoted: true, id: session.user.id })
       if (data && user) {
         setIsSubmitting(false)
