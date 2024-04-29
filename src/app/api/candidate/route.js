@@ -3,6 +3,10 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
 
+//POST = add or insert data (create)
+//async function = run in the background
+// req = incoming request from user to api
+// res  = api response
 export async function POST(req, res) {
   try {
     const body = await req.json()
@@ -21,6 +25,8 @@ export async function POST(req, res) {
     await prisma.$disconnect()
   }
 }
+
+//query (Read)
 export async function GET(req, res) {
   try {
     const candidates = await prisma.party.findMany({
@@ -36,6 +42,7 @@ export async function GET(req, res) {
   }
 }
 
+//update (patch) => only update affected fields
 export async function PATCH(req, res) {
   try {
     const body = await req.json()

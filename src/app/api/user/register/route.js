@@ -13,8 +13,8 @@ export async function POST(req) {
     return NextResponse.json({ errors }, { status: 400 })
   }
   try {
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(password, salt)
+    const salt = await bcrypt.genSalt(10) // bcrypt - library
+    const hashedPassword = await bcrypt.hash(password, salt) //salt - added string after password for secuiri
     const user = await prisma.user.create({
       data: { name, email, password: hashedPassword, hasVoted, role }
     })

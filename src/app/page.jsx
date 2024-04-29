@@ -1,5 +1,6 @@
 import React from 'react'
 import './globals.css'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -29,9 +30,9 @@ export default function Home() {
             </ul>
           </div>
           <div>
-            <button className='border border-stone-900 px-6 py-2 rounded-2xl text-[#615A5A] bg-gradient-to-r '>
+            <Link href='/login' className='border border-stone-900 px-6 py-2 rounded-2xl text-[#615A5A] bg-gradient-to-r '>
               Sign in
-            </button>
+            </Link>
           </div>
         </nav>
       </header>

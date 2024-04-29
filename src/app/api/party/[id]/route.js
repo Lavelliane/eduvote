@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
-
+//params is url params e.g. /api/party/12345?tab=2 .. 12345 is params.id
 export async function GET(req, { params }) {
   try {
     const partyId = params.id
