@@ -11,6 +11,7 @@ import { Doughnut } from 'react-chartjs-2'
 import {Chart, ArcElement, Tooltip, Legend} from 'chart.js'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { doughnutColors } from '@/constants/colors'
 Chart.register(ArcElement, Tooltip, Legend);
 
 const dummyData = [
@@ -69,8 +70,8 @@ function DashboardPage() {
           {
             label: 'Votes per party',
             data: candidatesData.map((party) => party.number_of_votes),
-            backgroundColor: candidatesData.map((party) => randomColor()),
-            hoverBackgroundColor: candidatesData.map((party) => randomColor())
+            backgroundColor: candidatesData.map((party, i) => doughnutColors[i]),
+            hoverBackgroundColor: candidatesData.map((party, i) => doughnutColors[i])
           }
         ]
       })
@@ -140,8 +141,8 @@ function DashboardPage() {
         </div>
 
         <div className='w-[300px] h-auto my-[20px]'>
-        { Object.keys(partyStats).length > 0 && partyStats.labels && partyStats.datasets.length > 0 && <Doughnut data={partyStats} config={{type: 'doughnut'}} />}
-      </div>
+          { Object.keys(partyStats).length > 0 && partyStats.labels && partyStats.datasets.length > 0 && <Doughnut data={partyStats} config={{type: 'doughnut'}} />}
+        </div>
       </div>
 
       

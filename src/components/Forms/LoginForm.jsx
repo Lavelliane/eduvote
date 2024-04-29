@@ -1,18 +1,21 @@
 'use client'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Form, Input } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import Cookies from 'js-cookie'
 
 const LoginForm = () => {
+  const [isSigningIn, setIsSigningIn] = useState(false)
   const onFinish = async (values) => {
     try {
+      setIsSigningIn(true)
       let res = await signIn('credentials', {
         ...values,
         callbackUrl: '/dashboard',
         redirect: true
       })
+      setIsSigningIn(false)
       console.log('success')
     } catch (e) {
       console.error(e)
@@ -68,6 +71,7 @@ const LoginForm = () => {
 
         <Form.Item>
           <Button
+            loading={isSigningIn}
             htmlType='submit'
             className='bg-[#3DF07F] hover:bg-[#3c8858] hover:border-gray-300 text-white w-[100%] py-5 flex items-center justify-center'
           >
