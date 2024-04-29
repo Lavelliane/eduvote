@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
 
-export async function POST(req, res) {
+export async function PATCH(req, res) {
   try {
     const body = await req.json()
     console.log(body)
@@ -46,8 +46,5 @@ export async function POST(req, res) {
     console.error('Error submitting vote:', error)
     // Respond with error message
     return NextResponse.json({ message: 'error' }, { status: 500 })
-  } finally {
-    // Disconnect Prisma client
-    await prisma.$disconnect()
   }
 }
