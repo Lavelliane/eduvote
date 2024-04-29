@@ -22,12 +22,18 @@ export const authOptions = {
           email: credentials?.email,
           password: credentials?.password
         }
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/login`, userCredentials)
-        const user = res.data
-        if (user) {
-          return user
+        try {
+          const res = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/login`, userCredentials)
+          const user = res.data
+          if (user) {
+            return user
+          } else {
+            return null
+          }
+        } catch (e) {
+          console.error(e)
+          return null
         }
-        return null
       }
     })
   ],
