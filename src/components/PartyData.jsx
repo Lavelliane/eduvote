@@ -10,8 +10,8 @@ function PartyData({ title, vision, mission, goals }) {
       <p>{mission}</p>
       <p className='font-sans font-bold text-[14px] mt-5'>Goals</p>
       <p>
-        {goals.split(',').map((cred) => (
-          <li>{cred.trim()}</li>
+        {goals.split(',').map((cred, i) => (
+          <li key={i}>{cred.trim()}</li>
         ))}
       </p>
 

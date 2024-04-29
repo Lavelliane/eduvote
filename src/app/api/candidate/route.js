@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
-
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'
 
 //POST = add or insert data (create)
 //async function = run in the background

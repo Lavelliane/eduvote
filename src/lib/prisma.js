@@ -1,14 +1,15 @@
-import { PrismaClient } from '@prisma/client'
+const { PrismaClient } = require('@prisma/client')
 
-let prisma
-
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient()
-} else {
-  if (!global.prisma) {
-    global.prisma = new PrismaClient()
-  }
-  prisma = global.prisma
+const prismaClientSingleton = () => {
+  return new PrismaClient()
 }
 
-export default prisma
+// Define `prismaGlobal` in the global scope
+global.prismaGlobal = global.prismaGlobal || prismaClientSingleton()
+
+export const prisma = global.prismaGlobal
+
+// Set `prismaGlobal` in non-production environments
+if (process.env.NODE_ENV !== 'production') {
+  global.prismaGlobal = prisma
+}

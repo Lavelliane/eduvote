@@ -11,7 +11,8 @@ export async function createCandidate(data) {
 
 export async function updateCandidate(data) {
   try {
-    await axios.patch('/api/candidate', data)
+    const res = await axios.patch('/api/candidate', data)
+    return res.data
   } catch (e) {
     console.error(e)
   }

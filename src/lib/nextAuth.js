@@ -2,8 +2,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import axios from 'axios'
 import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
@@ -23,12 +22,18 @@ export const authOptions = {
           email: credentials?.email,
           password: credentials?.password
         }
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/login`, userCredentials)
-        const user = res.data
-        if (user) {
-          return user
+        try {
+          const res = await axios.post(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/login`, userCredentials)
+          const user = res.data
+          if (user) {
+            return user
+          } else {
+            return null
+          }
+        } catch (e) {
+          console.error(e)
+          return null
         }
-        return null
       }
     })
   ],
