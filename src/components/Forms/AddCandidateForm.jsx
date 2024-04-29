@@ -8,8 +8,6 @@ import { omit } from 'lodash'
 import { PlusOutlined } from '@ant-design/icons'
 import { Image, Upload } from 'antd'
 import { createClient } from '@supabase/supabase-js'
-import { decode } from 'base64-arraybuffer'
-import path from 'path'
 
 const supabase = createClient(`${process.env.NEXT_PUBLIC_SUPABASE_DOMAIN}`, `${process.env.NEXT_PUBLIC_SUPABASE_KEY}`)
 
@@ -33,10 +31,11 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
     }
   })
 
-  const { mutate: updateCandidateMutation } = useMutation({
+  const { mutate: updateCandidateMutation, isSuccess: updateSuccess } = useMutation({
     mutationFn: updateCandidate,
-    onSuccess: () => {
+    onSuccess: (response) => {
       // Invalidate and refetch
+      setCreatedOrUpdatedCandidate(response.candidate)
       queryClient.invalidateQueries({ queryKey: ['candidates'] })
     }
   })
@@ -52,26 +51,26 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
     }
   }, [candidateData, candidateForm])
 
-  // async function uploadImage(id) {
-  //   // const fileToUpload = await getBase64(fileList[0].originFileObj)
-  //   const { data, error } = await supabase.storage.from('avatars').upload(`${id}/avatar`, fileList[0].originFileObj, {
-  //     cacheControl: '3600',
-  //     upsert: false
-  //   })
-  //   const { data: url } = supabase.storage.from('avatars').getPublicUrl(`${id}/avatar`)
-  //   console.log(url.publicUrl)
-  //   updateCandidateMutation({ img_url: url.publicUrl, id })
-  // }
+  async function uploadImage(id) {
+    // const fileToUpload = await getBase64(fileList[0].originFileObj)
+    const { data, error } = await supabase.storage.from('avatars').upload(`${id}/avatar`, fileList[0].originFileObj, {
+      cacheControl: '3600',
+      upsert: false
+    })
+    const { data: url } = supabase.storage.from('avatars').getPublicUrl(`${id}/avatar`)
+    console.log(url.publicUrl)
+    await updateCandidateMutation({ img_url: url.publicUrl, id })
+  }
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     uploadImage(createdOrUpdatedCandidate.id).then((res) => {
-  //       if (res) {
-  //         console.log('Candidate created successfully')
-  //       }
-  //     })
-  //   }
-  // }, [isSuccess])
+  useEffect(() => {
+    if (isSuccess || updateSuccess) {
+      uploadImage(createdOrUpdatedCandidate.id).then((res) => {
+        if (res) {
+          console.log('Candidate created successfully')
+        }
+      })
+    }
+  }, [isSuccess, updateSuccess])
   const handleSubmit = async (values) => {
     if (trigger === 'create') {
       createCandidateMutation({ ...values, filename, party_id: partyId })
@@ -81,11 +80,11 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
     handleFormClose()
   }
 
-  const handleChange = ({ fileList: newFileList, file }) => {
+  const handleChange = ({ fileList: newFileList }) => {
     setFileList(newFileList)
-    if(file.status === "done"){
-      setFileName(file.name.replaceAll(" ", "_"))
-    }
+    // if(file.status === "done"){
+    //   setFileName(file.name.replaceAll(" ", "_"))
+    // }
   }
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -169,7 +168,6 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
           onPreview={handlePreview}
           onChange={handleChange}
           accept='image/png, image/jpeg'
-          action="/api/upload"
         >
           {fileList.length >= 1 ? null : uploadButton}
         </Upload>

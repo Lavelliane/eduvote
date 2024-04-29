@@ -42,13 +42,13 @@ export default function PartyPage({ params }) {
                     key={candidates.id}
                     name={candidates.name}
                     position={candidates.position}
-                    img_url={candidates.filename}
+                    img_url={candidates.img_url}
                   />
                   <ViewMore
                   key={candidates.id}
                   name={candidates.name}
                   position={candidates.position}
-                  img_url={candidates.filename}
+                  img_url={candidates.img_url}
                   age={candidates.age}
                   course={candidates.course}
                   credentials={candidates.credentials}

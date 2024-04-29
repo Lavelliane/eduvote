@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcrypt'
 import { PrismaClient } from '@prisma/client'
 import { omit } from 'lodash'
+import { prisma } from '@/lib/prisma'
 
-const prisma = new PrismaClient()
 export async function POST(req) {
   const { email, password } = await req.json()
   if (!email || !password) {
