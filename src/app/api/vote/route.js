@@ -6,42 +6,39 @@ const prisma = new PrismaClient()
 export async function PATCH(req, res) {
   try {
     const body = await req.json()
+    const candidateIds = body.map((data) => data.candidateId)
+    const partyIds = body.map((data) => data.partyId)
     console.log(body)
 
-    Promise.all(
-      body.map(async (data) => {
-        const candidateUpdateResult = await prisma.candidate.update({
-          where: {
-            id: data.candidateId
-          },
-          data: {
-            number_of_votes: {
-              increment: 1
-            }
-          }
-        })
+    const candidateUpdateResult = await prisma.candidate.updateMany({
+      where: {
+        id: {
+          in: candidateIds
+        }
+      },
+      data: {
+        number_of_votes: {
+          increment: 1
+        }
+      }
+    })
+    const partyUpdateResult = await prisma.party.updateMany({
+      where: {
+        id: {
+          in: partyIds
+        }
+      },
+      data: {
+        number_of_votes: {
+          increment: 1
+        }
+      }
+    })
 
-        const partyUpdateResult = await prisma.party.update({
-          where: {
-            id: data.partyId
-          },
-          data: {
-            number_of_votes: {
-              increment: 1
-            }
-          }
-        })
-        return { candidateUpdateResult, partyUpdateResult }
-      })
+    return NextResponse.json(
+      { message: 'success', votes: { ...candidateUpdateResult, ...partyUpdateResult } },
+      { status: 201 }
     )
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((e) => {
-        console.error(e)
-      })
-
-    return NextResponse.json({ message: 'success', votes: body }, { status: 201 })
   } catch (error) {
     console.error('Error submitting vote:', error)
     // Respond with error message
