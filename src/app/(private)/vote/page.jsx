@@ -47,9 +47,8 @@ export default function VotePage() {
       const user = await axios.patch('/api/user/update', { hasVoted: true, id: session.user.id })
       if (data && user) {
         setIsSubmitting(false)
+        router.push('/voting-success')
       }
-      setIsSubmitting(false)
-      router.push('/voting-success')
     } catch (e) {
       setIsSubmitting(false)
       console.error(e)

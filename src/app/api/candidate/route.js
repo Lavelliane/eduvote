@@ -3,31 +3,33 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
 //POST = add or insert data (create)
-//async function = run in the background
+//async function = run in the background to make requests
+// to the database using prisma
 // req = incoming request from user to api
 // res  = api response
 export async function POST(req, res) {
   try {
-    const body = await req.json()
-    console.log(body)
+    const body = await req.json() //get request body from frontend request
+    // prisma.<table name>.<method in prisma>
     const newCandidate = await prisma.candidate.create({
       data: body
     })
 
+    //return a response
+    // 201 = created
     return NextResponse.json({ message: 'success', candidate: newCandidate }, { status: 201 })
   } catch (error) {
     console.error('Error creating Candidate:', error)
     // Respond with error message
     return NextResponse.json({ message: 'error' }, { status: 500 })
-  } finally {
-    // Disconnect Prisma client
-    await prisma.$disconnect()
   }
 }
 
 //query (Read)
 export async function GET(req, res) {
   try {
+    //since party has one to many relationship with candidates
+    // we query for party, but include all candidates in the result
     const candidates = await prisma.party.findMany({
       include: {
         candidates: true
@@ -44,8 +46,11 @@ export async function GET(req, res) {
 //update (patch) => only update affected fields
 export async function PATCH(req, res) {
   try {
+    //get request body
     const body = await req.json()
+    //get id of the candidate from body
     const id = body.id
+    // run prisma's update function
     const candidate = await prisma.candidate.update({
       where: { id },
       data: body
