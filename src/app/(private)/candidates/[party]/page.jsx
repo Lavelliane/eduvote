@@ -33,11 +33,13 @@ export default function PartyPage({ params }) {
         {!isLoading && party && (
           <>
            <Card>
-           
+           <div className="h-[200px]">
+             <img className="h-full bg-cover w-full rounded-2xl" src="https://files.123freevectors.com/wp-content/original/103934-green-stripes-pattern.jpg" alt="party-cover" />
+           </div>
            <PartyData title={party.name} vision={party.vision} mission={party.mission} goals={party.goals} />
             <Row gutter={[16, 24]} className='flex gap-2 flex-row items-center justify-evenly font-sans'>
               {party.candidates.map((candidates, index) => (
-                <Col span={4} key={index}>
+                <Col span={4} key={index} style={{ textAlign: "center" }}>
                   <CandidateData
                     key={candidates.id}
                     name={candidates.name}
