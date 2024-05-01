@@ -17,7 +17,23 @@ export const leaderboardColumns = [
     title: 'Party',
     dataIndex: 'party',
     width: 200,
-    key: 'party'
+    key: 'party',
+    render: (text) => (
+      <span
+        style={{
+          color: '#5BBCFF',
+          borderColor: '#41C9E2',
+          borderWidth: '2px',
+          borderStyle: 'solid',
+          borderRadius: '6px',
+          paddingLeft: '10px',
+          paddingRight: '10px',
+          backgroundColor: '#F6F5F5'
+        }}
+      >
+        {text}
+      </span>
+    )
   },
   {
     dataIndex: 'votePercentage',

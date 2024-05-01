@@ -12,15 +12,16 @@ function LeaderboardTable({ data, showTitle, position }) {
 
   return (
     <>
+
       <Card className='mt-6 rounded-2xl border border-[#E6EDFF] flex flex-col w-full'>
         {showTitle && (
           <div className='flex items-center justify-between px-4 py-2'>
-            <h1 className='font-bold text-lg '>Ranking</h1>
+            
             <p className='text-[#7C8DB5] text-[12px]'>{currentDate}</p>
           </div>
         )}
         <div className='flex justify-center text-center m-auto'>
-          <h4 className='mt-5 mb-5 text-small font-semibold font-sans '>{position}</h4>
+          <h4 className='mt-5 mb-5 text-xl font-semibold font-sans '>{position}</h4>
         </div>
         <div className='flex justify-center'>
           <style>

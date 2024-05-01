@@ -8,11 +8,11 @@ import { getCandidates } from '@/lib/queries/candidate/getCandidates'
 import axios from 'axios'
 import randomColor from 'randomcolor'
 import { Doughnut } from 'react-chartjs-2'
-import {Chart, ArcElement, Tooltip, Legend} from 'chart.js'
+import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { doughnutColors } from '@/constants/colors'
-Chart.register(ArcElement, Tooltip, Legend);
+Chart.register(ArcElement, Tooltip, Legend)
 
 const dummyData = [
   {
@@ -53,8 +53,8 @@ function DashboardPage() {
     queryKey: ['voters-count']
   })
   useEffect(() => {
-    if(session){
-      if(!session.user.year && !session.user.role === 'ADMIN'){
+    if (session) {
+      if (!session.user.year && !session.user.role === 'ADMIN') {
         router.push('/onboarding')
       }
     }
@@ -110,42 +110,50 @@ function DashboardPage() {
 
   return (
     <>
-      <div className='w-full text-white flex bg-gradient-to-r from-[#fef08a] to-green-500 h-40 mb-6 rounded-2xl flex-col'>
-        <p className='inline-block text-3xl ml-6 mt-7 font-semibold'>Welcome to EduVote</p>
-        <p className='ml-6 font-semibold'> Student Voices through Voting</p>
-      </div>
+      {/* <div className='w-full text-white flex bg-gradient-to-r from-[#fef08a] to-green-500 h-40 mb-6 rounded-2xl flex-col'> */}
+      <p className='inline-block text-3xl ml-6 mt-7 font-semibold text-[#292f52] font-sans'>Welcome to EduVote</p>
+      <p className='ml-6 font-normal mb-5 text-[#333B69] font-sans'> Student Voices through Voting</p>
+      {/* </div> */}
+
+      <div className='flex gap-4'>
       
+      <div className='flex w-max bg-gradient-to-br from-green-400 to-[#BED7DC] rounded-2xl pr-4 pt-4'>
+  {/* <img src="in2.svg" alt="inter" className=' absolute'/> */}
+  <div className='flex items-center flex-col mr-8 p-6 h-28 flex-wrap'>
+    <h1 className='font-semibold text-white text-5xl mr-3 '>
+      {candidatesData && candidatesData.reduce((acc, current) => acc + current.number_of_votes, 0)}
+    </h1>
+    <p className='whitespace-nowrap text-white text-xl'>Total <br /> votes</p>
+  </div>
+  <div className='ml-8 mb-10 rounded-2xl'>
+    <img className='w-10 h-10' src='icon.svg' alt='users' />
+  </div>
+  {/* <img src="Intersect.svg" alt="intersect" className='absolute mr-auto' /> */}
+</div>
 
-      <div className='flex'>
-        <div className='flex w-max bg-[#fef2f2]  rounded-2xl '>
-          <div className='flex items-center flex-col mr-8 p-6 h-44'>
-            <h1 className='mr-2 font-semibold text-3xl text-[#f87171] '>
-              {candidatesData && candidatesData.reduce((acc, current) => acc + current.number_of_votes, 0)}
-            </h1>
-            <p className='text-sm whitespace-nowrap text-[#f87171]'>Total votes</p>
-          </div>
-          <div className='ml-8 mb-10'>
-            <img className='w-10 h-10' src='icon.svg' alt='users' />
-          </div>
-        </div>
 
-        <div className='flex w-max ml-4 bg-[#fffbeb] rounded-2xl h-30'>
-        <div className='flex items-center flex-col mr-8 p-6'>
-            <h1 className='font-semibold text-3xl mr-auto text-[#fbbf24]'>{countVoters ? countVoters : 0}</h1>
-            <p className='text-sm whitespace-nowrap text-[#fbbf24]'>Registered Voters</p>
-          </div>
-          <div className='ml-10 mb-10'>
-            <img className='w-10 h-10' src='registervoter.svg' alt='register' />
-          </div>
-         
-        </div>
+<div className='flex w-max bg-gradient-to-br from-[#D875C7] to-[#7AA2E3] rounded-2xl pt-4 pr-4 '>
+  <div className='flex items-center flex-col mr-8 p-6 h-28 flex-wrap'>
+    <h1 className='font-semibold text-5xl text-white mr-3'>{countVoters ? countVoters : 0}</h1>
+    <p className='text-xl whitespace-nowrap text-white '>
+      Registered <br />
+      Voters
+    </p>
+  </div>
+  <div className='ml-10 mb-10'>
+    <img className='w-10 h-10' src='registervoter.svg' alt='register' />
+  </div>
+</div>
 
-        <div className='w-[300px] h-auto my-[20px]'>
-          { Object.keys(partyStats).length > 0 && partyStats.labels && partyStats.datasets.length > 0 && <Doughnut data={partyStats} config={{type: 'doughnut'}} />}
-        </div>
+
+        {/* <div className='w-[300px] h-auto my-[20px] flex justify-center items-center bg-white ml-4 overflow-hidden'>
+          {Object.keys(partyStats).length > 0 && partyStats.labels && partyStats.datasets.length > 0 && (
+            <Doughnut data={partyStats} config={{ type: 'doughnut' }} />
+          )}
+        </div> */}
       </div>
 
-      
+      <h1 className='inline-block text-xl ml-6 mt-7 font-semibold text-[#292f52] font-sans'>Ranking</h1>
 
       {Object.keys(positions).length > 0 &&
         positionsArray.map((position, key) => {
@@ -164,11 +172,9 @@ function DashboardPage() {
               isWinning: (candidate.numberOfVotes / totalVotes) * 100 >= 50
             }))
 
-          return (
-            <LeaderboardTable data={data} showTitle={key === 0 ? true : false} position={position} key={key} />
-          )
-        }
-      })}
+            return <LeaderboardTable data={data} showTitle={key === 0 ? true : false} position={position} key={key} />
+          }
+        })}
     </>
   )
 }
