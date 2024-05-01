@@ -146,7 +146,13 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
         <Input />
       </Form.Item>
 
-      <Form.Item name='age' label='Age' rules={[{ required: true, message: 'Please input age' }]}>
+      <Form.Item name='age' label='Age' rules={[
+          { required: true, message: 'Please input age' },
+          { type: 'number', message: 'Age must be a number' },
+          { min: 18, message: 'Age must be at least 18' },
+          { max: 25, message: 'Age must be at most 25' },
+        ]}
+      >
         <InputNumber />
       </Form.Item>
 
