@@ -387,7 +387,7 @@ export default function Home() {
           Any Questions? Look Here
         </h2>
         <p className='text-base text-body-color dark:text-dark-6'>
-          There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in
+          There are many variations of passages of Lorem available but the majority have suffered alteration in
           some form.
         </p>
       </div>
