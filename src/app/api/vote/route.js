@@ -4,9 +4,10 @@ import { prisma } from '@/lib/prisma'
 export async function PATCH(req, res) {
   try {
     const body = await req.json()
-    const candidateIds = body.map((data) => data.candidateId)
-    const partyIds = body.map((data) => data.partyId)
-    console.log(body)
+    const cleanData = body.filter((b) => !!b)
+    const candidateIds = cleanData.map((data) => data.candidateId)
+    const partyIds = cleanData.map((data) => data.partyId)
+    console.log(cleanData)
 
     const candidateUpdateResult = await prisma.candidate.updateMany({
       where: {
