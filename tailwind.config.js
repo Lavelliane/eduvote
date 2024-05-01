@@ -7,7 +7,9 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sans: ['Poppins', 'sans-serif']
+      sans: ['Poppins', 'sans-serif'],
+      space: ['Spacec Grotesk', 'sans-serif'],
+      mon: ['Montserrat', 'sans-serif']
     },
     extend: {
       backgroundImage: {
