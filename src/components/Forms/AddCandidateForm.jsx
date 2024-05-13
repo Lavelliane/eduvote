@@ -40,12 +40,21 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
     }
   })
 
+  const { mutate: updateCandidateImage, isSuccess: updateImageSuccess } = useMutation({
+    mutationFn: updateCandidate,
+    onSuccess: (response) => {
+      // Invalidate and refetch
+      console.log('Candidate image uploaded')
+    }
+  })
+
   const [candidateForm] = useForm()
 
   useEffect(() => {
     if (candidateData && trigger === 'edit') {
       //omit img_url for now
       candidateForm.setFieldsValue(candidateData)
+      setPreviewImage(candidateData.img_url)
     } else {
       candidateForm.resetFields()
     }
@@ -53,17 +62,25 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
 
   async function uploadImage(id) {
     // const fileToUpload = await getBase64(fileList[0].originFileObj)
-    const { data, error } = await supabase.storage.from('avatars').upload(`${id}/avatar`, fileList[0].originFileObj, {
-      cacheControl: '3600',
-      upsert: false
-    })
-    const { data: url } = supabase.storage.from('avatars').getPublicUrl(`${id}/avatar`)
-    console.log(url.publicUrl)
-    await updateCandidateMutation({ img_url: url.publicUrl, id })
+    try{
+      const { data, error } = await supabase.storage.from('avatars').upload(`${id}/avatar`, fileList[0].originFileObj, {
+        cacheControl: '3600',
+        upsert: true
+      })
+      console.log('UPLOAD DATA',data)
+      console.log('PATH', `${id}/avatar`)
+      const { data: url } = supabase.storage.from('avatars').getPublicUrl(`${id}/avatar`)
+      console.log(url.publicUrl)
+      await updateCandidateImage({ img_url: url.publicUrl, id })
+    }catch (e) {
+      console.error(e)
+    }
+
   }
 
   useEffect(() => {
     if (isSuccess || updateSuccess) {
+      console.log('SUCCESS UPDATE')
       uploadImage(createdOrUpdatedCandidate.id).then((res) => {
         if (res) {
           console.log('Candidate created successfully')
@@ -170,7 +187,7 @@ function AddCandidateForm({ handleFormClose, partyId, candidateData, trigger }) 
       <Form.Item name='advocacy' label='Advocacy' rules={[{ required: true, message: 'Please enter the advocacy' }]}>
         <Input.TextArea />
       </Form.Item>
-      <Form.Item name='candidate_image'>
+      <Form.Item name='img_url'>
         <Upload
           listType='picture-circle'
           fileList={fileList}
