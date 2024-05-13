@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 function LoginPage() {
   return (
-    <div className='relative h-screen'>
+    <div className='relative h-screen overflow-hidden'>
       <div className='flex flex-col rounded-3xl justify-center items-center relative z-10'>
         <div className='w-[34%] p-6 ml-20 rounded-[30px] border-[#E6EDFF] solid border mb-30 px-14 py-10 bg-white'>
           <p className='font-sans text-[#20115B] text-2xl font-semibold mb-4'>Log in</p>
@@ -22,7 +22,7 @@ function LoginPage() {
         </div>
       </div>
 
-      <div className='absolute inset-0 z-0 mt-20'>
+      <div className='absolute inset-0 z-0 mt-20 h-screen'>
         <img src='bgLogin.svg' alt='survey' className='' />
       </div>
     </div>

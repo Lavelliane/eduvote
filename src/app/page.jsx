@@ -45,9 +45,9 @@ export default function Home() {
         </nav>
       </header>
 
-      <section className='mt-24 mb-30'>
+      <section className='mt-24 mb-30 -z-0'>
         <div className='flex items-center gap-10'>
-          <div className='flex flex-col gap-6 z-10 ml-20 w-[700px]'>
+          <div className='flex flex-col gap-6 ml-20 w-[700px]'>
             <p className='text-5xl font-extrabold'>
               <span className='bg-gradient-to-r text-transparent bg-clip-text from-blue-500 to-green-500'>
                 Every decision
