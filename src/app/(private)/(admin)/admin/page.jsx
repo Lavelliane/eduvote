@@ -44,7 +44,7 @@ const App = () => {
 
   return (
     <>
-      <div className='w-auto bg-white h-screen px-10 py-6 rounded-lg'>
+      <div className='w-auto bg-white h-screen px-10 py-6 rounded-lg overflow-hidden'>
         <Tabs
           defaultActiveKey='1'
           items={items}
